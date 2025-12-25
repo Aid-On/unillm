@@ -4,18 +4,18 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue.svg)](https://www.typescriptlang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**unillm** (unified LLM) is a true edge-native unified LLM library with minimal dependencies, WebStreams native support, and memory optimization for edge computing environments.
+**unillm** is a unified LLM interface for edge computing. It provides a consistent, type-safe API across multiple LLM providers with minimal dependencies and optimized memory usage for edge environments.
 
-[日本語版 README はこちら](./README.ja.md)
+[日本語](./README.ja.md) | English
 
 ## Features
 
-- ⚡ **Edge-Optimized**: ~50KB bundle (vs AI SDK ~200KB+), ~10ms cold start
-- 🔄 **Unified Interface**: Same API for all providers (Groq, Gemini, Cloudflare)
-- 🌊 **Web Streams Native**: Built on standard ReadableStream API
+- 🚀 **Edge-First**: ~50KB bundle size, ~10ms cold start, optimized for edge runtimes
+- 🔄 **Unified Interface**: Single API for Groq, Gemini, Cloudflare, and more
+- 🌊 **Streaming Native**: Built on Web Streams API with nagare integration
 - 🎯 **Type-Safe**: Full TypeScript support with Zod schema validation
 - 📦 **Minimal Dependencies**: Only Zod (~11KB) required
-- 🚀 **nagare Integration**: Returns `Stream<T>` for reactive extensions
+- ⚡ **Memory Optimized**: Automatic chunking and backpressure handling
 
 ## Installation
 
@@ -33,56 +33,44 @@ pnpm add @aid-on/unillm
 
 ## Quick Start
 
-### Fluent Builder API (Recommended)
-
 ```typescript
 import { unillm } from "@aid-on/unillm";
 
-// Modern chainable API
-const result = await unillm()
-  .model("groq:llama-3.1-8b-instant")
+// Fluent API with type safety
+const response = await unillm()
+  .model("groq:llama-3.3-70b-versatile")
   .credentials({ groqApiKey: process.env.GROQ_API_KEY })
   .temperature(0.7)
-  .generate("Write a haiku about TypeScript");
+  .generate("Explain quantum computing in simple terms");
 
-console.log(result.text);
+console.log(response.text);
 ```
 
-### Provider Shortcuts
+## Streaming with nagare
 
-```typescript
-import { groq, gemini, cloudflare } from "@aid-on/unillm";
-
-// Ultra-concise syntax
-const result1 = await groq.instant(apiKey).generate("Hello");
-const result2 = await gemini.flash(apiKey).generate("Hello");
-const result3 = await cloudflare.gpt120b(creds).generate("Hello");
-```
-
-## nagare Stream Integration
-
-unillm returns **@aid-on/nagare** `Stream<T>` for full compatibility with other Aid-On libraries:
+unillm returns **@aid-on/nagare** `Stream<T>` for reactive stream processing:
 
 ```typescript
 import { unillm } from "@aid-on/unillm";
 import type { Stream } from "@aid-on/nagare";
 
-// stream() method returns nagare Stream<string>
 const stream: Stream<string> = await unillm()
   .model("groq:llama-3.3-70b-versatile")
   .credentials({ groqApiKey: "..." })
-  .stream("Tell me a story");
+  .stream("Write a story about AI");
 
-// Use nagare's Fluent API
+// Use nagare's reactive operators
 const enhanced = stream
-  .map(chunk => chunk.toUpperCase())
+  .map(chunk => chunk.trim())
   .filter(chunk => chunk.length > 0)
-  .tap(chunk => console.log(`Streaming: ${chunk}`))
-  .throttle(16)  // ~60fps
+  .throttle(16)  // ~60fps for UI updates
+  .tap(chunk => console.log(chunk))
   .toSSE();      // Convert to Server-Sent Events
 ```
 
 ## Structured Output
+
+Generate type-safe structured data with Zod schemas:
 
 ```typescript
 import { z } from "zod";
@@ -90,88 +78,169 @@ import { z } from "zod";
 const PersonSchema = z.object({
   name: z.string(),
   age: z.number(),
-  email: z.string().email()
+  skills: z.array(z.string())
 });
 
-// Type-safe structured generation
-const person = await unillm()
+const result = await unillm()
   .model("groq:llama-3.1-8b-instant")
   .credentials({ groqApiKey: "..." })
   .schema(PersonSchema)
-  .generate("Generate a random person profile");
+  .generate("Generate a software engineer profile");
 
-console.log(person.object.name); // Type-safe access
+// Type-safe access
+console.log(result.object.name);     // string
+console.log(result.object.skills);   // string[]
+```
+
+## Provider Shortcuts
+
+Ultra-concise syntax for common models:
+
+```typescript
+import { groq, gemini, cloudflare } from "@aid-on/unillm";
+
+// One-liners for quick prototyping
+await groq.instant("gsk_...").generate("Hello");
+await gemini.flash("AIza...").generate("Hello");
+await cloudflare.llama({ accountId: "...", apiToken: "..." }).generate("Hello");
 ```
 
 ## Supported Providers
 
 ### Groq
-- `groq:llama-3.3-70b-versatile` - Latest Llama 3.3 70B
+- `groq:llama-3.3-70b-versatile` - Llama 3.3 70B (recommended)
 - `groq:llama-3.1-8b-instant` - Fast 8B model
 - `groq:mixtral-8x7b-32768` - Mixtral MoE
 
 ### Google Gemini
-- `gemini:gemini-2.0-flash-exp` - Latest Gemini 2.0
+- `gemini:gemini-2.0-flash-exp` - Gemini 2.0 experimental
 - `gemini:gemini-1.5-pro` - Gemini 1.5 Pro
-- `gemini:gemini-1.5-flash` - Fast Flash model
+- `gemini:gemini-1.5-flash` - Fast flash model
 
 ### Cloudflare Workers AI
-- `cloudflare:@cf/meta/llama-3.1-8b-instruct` - Llama 3.1 8B
-- `cloudflare:@cf/qwen/qwen1.5-14b-chat-awq` - Qwen 1.5 14B
-- `cloudflare:@cf/openai/gpt-oss-120b` - GPT Open Source 120B
+- `cloudflare:@cf/meta/llama-3.1-8b-instruct`
+- `cloudflare:@cf/qwen/qwen1.5-14b-chat-awq`
+- `cloudflare:@cf/openai/gpt-oss-120b`
 
-## API Reference
+## Advanced Usage
 
-### Fluent Builder API
+### Fluent Builder Pattern
 
 ```typescript
 const builder = unillm()
-  .model(modelId)           // Set model
-  .credentials(creds)       // Set API credentials
-  .temperature(0.7)         // Set temperature (0-1)
-  .maxTokens(1000)         // Set max tokens
-  .topP(0.9)               // Set top-p sampling
-  .schema(zodSchema)       // Set output schema
-  .system(prompt)          // Set system prompt
-  .messages(messages)      // Set conversation history
-  
-// Execute
-await builder.generate(prompt)  // Generate text
-await builder.stream(prompt)    // Stream response
+  .model("groq:llama-3.3-70b-versatile")
+  .credentials({ groqApiKey: "..." })
+  .temperature(0.7)
+  .maxTokens(1000)
+  .topP(0.9)
+  .system("You are a helpful assistant")
+  .messages([
+    { role: "user", content: "Previous question..." },
+    { role: "assistant", content: "Previous answer..." }
+  ]);
+
+// Reusable configuration
+const response1 = await builder.generate("New question");
+const response2 = await builder.stream("Another question");
 ```
 
-### Legacy API (Backwards Compatible)
+### Memory Optimization
 
-```typescript
-import { generate, stream } from "@aid-on/unillm";
-
-// Direct function calls
-const result = await generate(
-  "groq:llama-3.1-8b-instant",
-  messages,
-  { groqApiKey: "..." }
-);
-
-const streamResult = await stream(
-  "gemini:gemini-2.0-flash",
-  messages,
-  { geminiApiKey: "..." }
-);
-```
-
-## Memory Optimization
-
-unillm is designed for edge environments with limited memory:
+Automatic memory management for edge environments:
 
 ```typescript
 import { createMemoryOptimizedStream } from "@aid-on/unillm";
 
-// Automatic chunk size optimization
 const stream = await createMemoryOptimizedStream(
   largeResponse,
-  { maxMemory: 1024 * 1024 } // 1MB limit
+  { 
+    maxMemory: 1024 * 1024,  // 1MB limit
+    chunkSize: 512           // Optimal chunk size
+  }
 );
 ```
+
+### Error Handling
+
+```typescript
+import { UnillmError, RateLimitError } from "@aid-on/unillm";
+
+try {
+  const response = await unillm()
+    .model("groq:llama-3.3-70b-versatile")
+    .credentials({ groqApiKey: "..." })
+    .generate("Hello");
+} catch (error) {
+  if (error instanceof RateLimitError) {
+    console.log(`Rate limited. Retry after ${error.retryAfter}ms`);
+  } else if (error instanceof UnillmError) {
+    console.log(`LLM error: ${error.message}`);
+  }
+}
+```
+
+## Integration Examples
+
+### With Qwik Components
+
+```typescript
+import { component$, useSignal } from "@builder.io/qwik";
+import { unillm } from "@aid-on/unillm";
+
+export default component$(() => {
+  const response = useSignal("");
+  
+  const handleGenerate = $(async () => {
+    const stream = await unillm()
+      .model("groq:llama-3.1-8b-instant")
+      .credentials({ groqApiKey: import.meta.env.VITE_GROQ_API_KEY })
+      .stream("Write a haiku");
+    
+    for await (const chunk of stream) {
+      response.value += chunk;
+    }
+  });
+  
+  return <button onClick$={handleGenerate}>Generate</button>;
+});
+```
+
+### With Cloudflare Workers
+
+```typescript
+export default {
+  async fetch(request: Request, env: Env) {
+    const stream = await unillm()
+      .model("cloudflare:@cf/meta/llama-3.1-8b-instruct")
+      .credentials({
+        accountId: env.CF_ACCOUNT_ID,
+        apiToken: env.CF_API_TOKEN
+      })
+      .stream("Hello from the edge!");
+    
+    return new Response(stream.toReadableStream(), {
+      headers: { "Content-Type": "text/event-stream" }
+    });
+  }
+};
+```
+
+## API Reference
+
+### unillm() Builder Methods
+
+| Method | Description | Example |
+|--------|-------------|---------|
+| `model(id)` | Set the model ID | `model("groq:llama-3.3-70b-versatile")` |
+| `credentials(creds)` | Set API credentials | `credentials({ groqApiKey: "..." })` |
+| `temperature(n)` | Set temperature (0-1) | `temperature(0.7)` |
+| `maxTokens(n)` | Set max tokens | `maxTokens(1000)` |
+| `topP(n)` | Set top-p sampling | `topP(0.9)` |
+| `schema(zod)` | Set output schema | `schema(PersonSchema)` |
+| `system(text)` | Set system prompt | `system("You are...")` |
+| `messages(msgs)` | Set message history | `messages([...])` |
+| `generate(prompt)` | Generate response | `await generate("Hello")` |
+| `stream(prompt)` | Stream response | `await stream("Hello")` |
 
 ## License
 
