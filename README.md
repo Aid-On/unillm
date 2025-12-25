@@ -108,16 +108,16 @@ await cloudflare.llama({ accountId: "...", apiToken: "..." }).generate("Hello");
 ## Supported Models (31 Models)
 
 ### Groq (7 models)
-- `groq:llama-3.3-70b-versatile` - Llama 3.3 70B Versatile ⭐ Recommended
-- `groq:llama-3.1-8b-instant` - Llama 3.1 8B Instant (Fast)
-- `groq:meta-llama/llama-guard-4-12b` - Llama Guard 4 12B (Safety)
+- `groq:llama-3.3-70b-versatile` - Llama 3.3 70B Versatile
+- `groq:llama-3.1-8b-instant` - Llama 3.1 8B Instant
+- `groq:meta-llama/llama-guard-4-12b` - Llama Guard 4 12B
 - `groq:openai/gpt-oss-120b` - GPT-OSS 120B
 - `groq:openai/gpt-oss-20b` - GPT-OSS 20B
-- `groq:groq/compound` - Groq Compound (Web Search + Code)
+- `groq:groq/compound` - Groq Compound
 - `groq:groq/compound-mini` - Groq Compound Mini
 
 ### Google Gemini (8 models)
-- `gemini:gemini-3-pro-preview` - Gemini 3 Pro Preview ⭐ Latest
+- `gemini:gemini-3-pro-preview` - Gemini 3 Pro Preview
 - `gemini:gemini-3-flash-preview` - Gemini 3 Flash Preview
 - `gemini:gemini-2.5-pro` - Gemini 2.5 Pro
 - `gemini:gemini-2.5-flash` - Gemini 2.5 Flash
@@ -127,7 +127,7 @@ await cloudflare.llama({ accountId: "...", apiToken: "..." }).generate("Hello");
 - `gemini:gemini-1.5-flash-002` - Gemini 1.5 Flash 002
 
 ### Cloudflare Workers AI (14 models)
-- `cloudflare:@cf/meta/llama-4-scout-17b-16e-instruct` - Llama 4 Scout ⭐ New
+- `cloudflare:@cf/meta/llama-4-scout-17b-16e-instruct` - Llama 4 Scout
 - `cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast` - Llama 3.3 70B FP8
 - `cloudflare:@cf/meta/llama-3.1-70b-instruct` - Llama 3.1 70B
 - `cloudflare:@cf/meta/llama-3.1-8b-instruct-fast` - Llama 3.1 8B Fast
@@ -138,7 +138,7 @@ await cloudflare.llama({ accountId: "...", apiToken: "..." }).generate("Hello");
 - `cloudflare:@cf/mistralai/mistral-small-3.1-24b-instruct` - Mistral Small 3.1
 - `cloudflare:@cf/mistralai/mistral-7b-instruct-v0.2` - Mistral 7B
 - `cloudflare:@cf/google/gemma-3-12b-it` - Gemma 3 12B
-- `cloudflare:@cf/qwen/qwq-32b` - QwQ 32B (Reasoning)
+- `cloudflare:@cf/qwen/qwq-32b` - QwQ 32B
 - `cloudflare:@cf/qwen/qwen2.5-coder-32b-instruct` - Qwen 2.5 Coder
 - `cloudflare:@cf/qwen/qwen3-30b-a3b-fp8` - Qwen 3 30B
 
