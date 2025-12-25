@@ -4,7 +4,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue.svg)](https://www.typescriptlang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**unillm** は真のエッジネイティブ統一LLMライブラリです - 最小依存（Zodのみ）、WebStreamsネイティブ、エッジコンピューティング環境向けにメモリ最適化されています。
+**unillm**（統一LLM）は、最小依存、WebStreamsネイティブサポート、エッジコンピューティング環境向けメモリ最適化を備えた真のエッジネイティブ統一LLMライブラリです。
 
 [English README is here](./README.md)
 
