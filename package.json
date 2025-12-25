@@ -1,0 +1,73 @@
+{
+  "name": "@aid-on/unillm",
+  "version": "0.1.0",
+  "description": "Edge-native unified LLM provider - pure fetch API, minimal dependencies (zod), WebStreams, memory optimization for Cloudflare Workers and edge computing environments",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "llm",
+    "edge-computing",
+    "cloudflare-workers",
+    "vercel-edge",
+    "ai",
+    "openai",
+    "groq", 
+    "gemini",
+    "webstreams",
+    "typescript",
+    "zod",
+    "serverless"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit", 
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "check": "npx tsx scripts/check.ts",
+    "check:all": "npx tsx scripts/check.ts --list"
+  },
+  "dependencies": {
+    "zod": "^3.24.1",
+    "@aid-on/nagare": "file:../nagare"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241230.0",
+    "@types/node": "^22.10.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8",
+    "tsx": "^4.19.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Aid-On/unillm.git"
+  },
+  "homepage": "https://github.com/Aid-On/unillm",
+  "bugs": {
+    "url": "https://github.com/Aid-On/unillm/issues"
+  },
+  "author": "Aid-On Platform",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "peerDependencies": {
+    "@cloudflare/workers-types": "^4.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@cloudflare/workers-types": {
+      "optional": true
+    }
+  }
+}
