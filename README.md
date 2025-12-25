@@ -215,7 +215,7 @@ export default function ChatComponent() {
     setLoading(true);
     const stream = await unillm()
       .model("groq:llama-3.1-8b-instant")
-      .credentials({ groqApiKey: process.env.NEXT_PUBLIC_GROQ_API_KEY })
+      .credentials({ groqApiKey: import.meta.env.VITE_GROQ_API_KEY })
       .stream("Write a haiku");
     
     for await (const chunk of stream) {
