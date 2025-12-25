@@ -201,28 +201,38 @@ try {
 
 ## Integration Examples
 
-### With Qwik Components
+### With React
 
 ```typescript
-import { component$, useSignal } from "@builder.io/qwik";
+import { useState } from "react";
 import { unillm } from "@aid-on/unillm";
 
-export default component$(() => {
-  const response = useSignal("");
+export default function ChatComponent() {
+  const [response, setResponse] = useState("");
+  const [loading, setLoading] = useState(false);
   
-  const handleGenerate = $(async () => {
+  const handleGenerate = async () => {
+    setLoading(true);
     const stream = await unillm()
       .model("groq:llama-3.1-8b-instant")
-      .credentials({ groqApiKey: import.meta.env.VITE_GROQ_API_KEY })
+      .credentials({ groqApiKey: process.env.NEXT_PUBLIC_GROQ_API_KEY })
       .stream("Write a haiku");
     
     for await (const chunk of stream) {
-      response.value += chunk;
+      setResponse(prev => prev + chunk);
     }
-  });
+    setLoading(false);
+  };
   
-  return <button onClick$={handleGenerate}>Generate</button>;
-});
+  return (
+    <div>
+      <button onClick={handleGenerate} disabled={loading}>
+        {loading ? "Generating..." : "Generate"}
+      </button>
+      <p>{response}</p>
+    </div>
+  );
+}
 ```
 
 ### With Cloudflare Workers
