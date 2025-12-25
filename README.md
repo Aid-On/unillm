@@ -4,7 +4,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue.svg)](https://www.typescriptlang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**unillm** is a true edge-native unified LLM library - minimal dependencies (Zod only), WebStreams native, memory-optimized for edge computing environments.
+**unillm** (unified LLM) is a true edge-native unified LLM library with minimal dependencies, WebStreams native support, and memory optimization for edge computing environments.
 
 [日本語版 README はこちら](./README.ja.md)
 
