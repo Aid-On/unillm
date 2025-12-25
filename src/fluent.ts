@@ -1,5 +1,5 @@
 /**
- * Fluent Builder API for unilmp
+ * Fluent Builder API for unillm
  *
  * Modern, type-safe, chainable interface for LLM operations
  * Inspired by Prisma, Playwright, and modern TypeScript patterns
@@ -35,7 +35,7 @@ interface FluentState {
 // Fluent Builder Class
 // =============================================================================
 
-export class UnilmpBuilder {
+export class UnillmBuilder {
   private state: FluentState = {};
 
   constructor(initialState: Partial<FluentState> = {}) {
@@ -47,13 +47,13 @@ export class UnilmpBuilder {
    * 
    * @example
    * ```typescript
-   * unilmp.model("groq:llama-3.1-8b-instant")
-   * unilmp.model("gemini:gemini-2.0-flash")
-   * unilmp.model("cloudflare:@cf/openai/gpt-oss-120b")
+   * unillm.model("groq:llama-3.1-8b-instant")
+   * unillm.model("gemini:gemini-2.0-flash")
+   * unillm.model("cloudflare:@cf/openai/gpt-oss-120b")
    * ```
    */
-  model(spec: ModelSpec | string): UnilmpBuilder {
-    return new UnilmpBuilder({ ...this.state, model: spec });
+  model(spec: ModelSpec | string): UnillmBuilder {
+    return new UnillmBuilder({ ...this.state, model: spec });
   }
 
   /**
@@ -65,110 +65,110 @@ export class UnilmpBuilder {
    * unilmp.creds({ groqApiKey: "..." }) // alias
    * ```
    */
-  credentials(creds: Credentials): UnilmpBuilder {
-    return new UnilmpBuilder({ ...this.state, credentials: creds });
+  credentials(creds: Credentials): UnillmBuilder {
+    return new UnillmBuilder({ ...this.state, credentials: creds });
   }
 
   /** Alias for credentials */
-  creds(creds: Credentials): UnilmpBuilder {
+  creds(creds: Credentials): UnillmBuilder {
     return this.credentials(creds);
   }
 
   /**
    * Set temperature (0-1)
    */
-  temperature(temp: number): UnilmpBuilder {
-    return new UnilmpBuilder({ ...this.state, temperature: temp });
+  temperature(temp: number): UnillmBuilder {
+    return new UnillmBuilder({ ...this.state, temperature: temp });
   }
 
   /** Alias for temperature */
-  temp(temp: number): UnilmpBuilder {
+  temp(temp: number): UnillmBuilder {
     return this.temperature(temp);
   }
 
   /**
    * Set max tokens
    */
-  maxTokens(tokens: number): UnilmpBuilder {
-    return new UnilmpBuilder({ ...this.state, maxTokens: tokens });
+  maxTokens(tokens: number): UnillmBuilder {
+    return new UnillmBuilder({ ...this.state, maxTokens: tokens });
   }
 
   /** Alias for maxTokens */
-  tokens(tokens: number): UnilmpBuilder {
+  tokens(tokens: number): UnillmBuilder {
     return this.maxTokens(tokens);
   }
 
   /**
    * Set system prompt
    */
-  system(prompt: string): UnilmpBuilder {
-    return new UnilmpBuilder({ ...this.state, system: prompt });
+  system(prompt: string): UnillmBuilder {
+    return new UnillmBuilder({ ...this.state, system: prompt });
   }
 
   /**
    * Set messages for conversation
    */
-  messages(msgs: Array<{ role: string; content: string }>): UnilmpBuilder {
-    return new UnilmpBuilder({ ...this.state, messages: msgs });
+  messages(msgs: Array<{ role: string; content: string }>): UnillmBuilder {
+    return new UnillmBuilder({ ...this.state, messages: msgs });
   }
 
   /**
    * Add a user message
    */
-  user(content: string): UnilmpBuilder {
+  user(content: string): UnillmBuilder {
     const messages = [...(this.state.messages || []), { role: "user", content }];
-    return new UnilmpBuilder({ ...this.state, messages });
+    return new UnillmBuilder({ ...this.state, messages });
   }
 
   /**
    * Add an assistant message
    */
-  assistant(content: string): UnilmpBuilder {
+  assistant(content: string): UnillmBuilder {
     const messages = [...(this.state.messages || []), { role: "assistant", content }];
-    return new UnilmpBuilder({ ...this.state, messages });
+    return new UnillmBuilder({ ...this.state, messages });
   }
 
   /**
    * Set Zod schema for structured output
    */
-  schema<T extends z.ZodType>(schema: T): UnilmpStructuredBuilder<T> {
-    return new UnilmpStructuredBuilder({ ...this.state, schema });
+  schema<T extends z.ZodType>(schema: T): UnillmStructuredBuilder<T> {
+    return new UnillmStructuredBuilder({ ...this.state, schema });
   }
 
   /**
    * Set retry configuration
    */
-  retry(config: RetryConfig): UnilmpBuilder {
-    return new UnilmpBuilder({ ...this.state, retryConfig: config });
+  retry(config: RetryConfig): UnillmBuilder {
+    return new UnillmBuilder({ ...this.state, retryConfig: config });
   }
 
   /**
    * Quick retry setup
    */
-  retries(count: number, baseDelay = 1000): UnilmpBuilder {
+  retries(count: number, baseDelay = 1000): UnillmBuilder {
     return this.retry({ maxRetries: count, baseDelay });
   }
 
   /**
    * Optimize messages for memory constraints
    */
-  optimize(maxTokens = 4000): UnilmpBuilder {
+  optimize(maxTokens = 4000): UnillmBuilder {
     const messages = this.state.messages;
     if (!messages) return this;
 
     const optimized = truncateMessages(messages, maxTokens);
-    return new UnilmpBuilder({ ...this.state, messages: optimized });
+    return new UnillmBuilder({ ...this.state, messages: optimized });
   }
 
   /**
    * Compress message content
    */
-  compress(): UnilmpBuilder {
+  compress(): UnillmBuilder {
     const messages = this.state.messages?.map(m => ({
       ...m,
       content: compressMessage(m.content),
     }));
-    return new UnilmpBuilder({ ...this.state, messages });
+    return new UnillmBuilder({ ...this.state, messages });
   }
 
   // =============================================================================
@@ -364,7 +364,7 @@ export class UnilmpBuilder {
 // Structured Output Builder
 // =============================================================================
 
-export class UnilmpStructuredBuilder<T extends z.ZodType> {
+export class UnillmStructuredBuilder<T extends z.ZodType> {
   private state: FluentState & { schema: T };
 
   constructor(state: FluentState & { schema: T }) {
@@ -417,8 +417,8 @@ export class UnilmpStructuredBuilder<T extends z.ZodType> {
  *   .generate("Hello world");
  * ```
  */
-export function unilmp(initialState?: Partial<FluentState>): UnilmpBuilder {
-  return new UnilmpBuilder(initialState);
+export function unillm(initialState?: Partial<FluentState>): UnillmBuilder {
+  return new UnillmBuilder(initialState);
 }
 
 /**
@@ -430,8 +430,8 @@ export function unilmp(initialState?: Partial<FluentState>): UnilmpBuilder {
  * const result = await groq.generate("Hello");
  * ```
  */
-export function quick(model: ModelSpec | string, credentials: Credentials): UnilmpBuilder {
-  return new UnilmpBuilder({ model, credentials });
+export function quick(model: ModelSpec | string, credentials: Credentials): UnillmBuilder {
+  return new UnillmBuilder({ model, credentials });
 }
 
 // =============================================================================

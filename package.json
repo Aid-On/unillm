@@ -1,6 +1,6 @@
 {
   "name": "@aid-on/unillm",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Edge-native unified LLM provider - pure fetch API, minimal dependencies (zod), WebStreams, memory optimization for Cloudflare Workers and edge computing environments",
   "type": "module",
   "main": "./dist/index.js",
