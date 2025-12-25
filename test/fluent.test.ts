@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { unilmp, quick, groq, gemini, cloudflare, UnilmpBuilder } from "../src/fluent.js";
+import { unillm, quick, groq, gemini, cloudflare, UnilmpBuilder } from "../src/fluent.js";
 import { z } from "zod";
 
 // Mock the generate function
@@ -26,14 +26,14 @@ describe("Fluent Builder API", () => {
     vi.clearAllMocks();
   });
 
-  describe("unilmp builder", () => {
+  describe("unillm builder", () => {
     it("should build and execute basic generation", async () => {
       mockGenerate.mockResolvedValue({
         text: "Hello world",
         usage: { promptTokens: 10, completionTokens: 5 },
       });
 
-      const result = await unilmp()
+      const result = await unillm()
         .model("groq:llama-3.1-8b-instant")
         .credentials({ groqApiKey: "test-key" })
         .temperature(0.7)
@@ -52,7 +52,7 @@ describe("Fluent Builder API", () => {
     it("should support method aliases", async () => {
       mockGenerate.mockResolvedValue({ text: "test" });
 
-      await unilmp()
+      await unillm()
         .model("groq:llama-3.1-8b-instant")
         .creds({ groqApiKey: "test-key" })
         .temp(0.5)
@@ -70,7 +70,7 @@ describe("Fluent Builder API", () => {
     it("should handle conversation building", async () => {
       mockGenerate.mockResolvedValue({ text: "response" });
 
-      await unilmp()
+      await unillm()
         .model("groq:llama-3.1-8b-instant")
         .credentials({ groqApiKey: "test-key" })
         .system("You are helpful")
@@ -94,7 +94,7 @@ describe("Fluent Builder API", () => {
 
     it("should throw error when model is missing", async () => {
       await expect(
-        unilmp()
+        unillm()
           .credentials({ groqApiKey: "test-key" })
           .generate("test")
       ).rejects.toThrow("Model is required");
@@ -102,7 +102,7 @@ describe("Fluent Builder API", () => {
 
     it("should throw error when credentials are missing", async () => {
       await expect(
-        unilmp()
+        unillm()
           .model("groq:llama-3.1-8b-instant")
           .generate("test")
       ).rejects.toThrow("Credentials are required");
@@ -120,7 +120,7 @@ describe("Fluent Builder API", () => {
 
       const schema = z.object({ name: z.string(), age: z.number() });
       
-      const result = await unilmp()
+      const result = await unillm()
         .model("groq:llama-3.3-70b-versatile")
         .credentials({ groqApiKey: "test-key" })
         .schema(schema)
@@ -142,7 +142,7 @@ describe("Fluent Builder API", () => {
       const schema = z.object({ value: z.number() });
       mockExtractJSON.mockReturnValue({ value: 42 });
 
-      const result = unilmp()
+      const result = unillm()
         .schema(schema)
         .extract("The answer is {\"value\": 42}");
 
@@ -226,7 +226,7 @@ describe("Fluent Builder API", () => {
         content: `Message ${i} with some content`,
       }));
 
-      await unilmp()
+      await unillm()
         .model("groq:llama-3.1-8b-instant")
         .credentials({ groqApiKey: "test-key" })
         .messages(longMessages)
@@ -241,7 +241,7 @@ describe("Fluent Builder API", () => {
     it("should compress message content", async () => {
       mockGenerate.mockResolvedValue({ text: "compressed" });
 
-      await unilmp()
+      await unillm()
         .model("groq:llama-3.1-8b-instant")
         .credentials({ groqApiKey: "test-key" })
         .user("Hello    world\n\n\nHow are you?   ")
@@ -257,7 +257,7 @@ describe("Fluent Builder API", () => {
     it("should handle retry configuration", async () => {
       mockGenerate.mockResolvedValue({ text: "retry test" });
 
-      await unilmp()
+      await unillm()
         .model("groq:llama-3.1-8b-instant")
         .credentials({ groqApiKey: "test-key" })
         .retries(3, 500)

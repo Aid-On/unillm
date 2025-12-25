@@ -1,5 +1,5 @@
 /**
- * @aid-on/unilmp
+ * @aid-on/unillm
  *
  * True edge-native unified LLM provider - zero dependencies
  * Optimized for Cloudflare Workers, Vercel Edge Functions, and edge computing
@@ -8,7 +8,7 @@
  *
  * @example
  * ```typescript
- * import { generate } from '@aid-on/unilmp';
+ * import { generate } from '@aid-on/unillm';
  *
  * const result = await generate("groq:llama-3.1-8b-instant", messages, {
  *   groqApiKey: process.env.GROQ_API_KEY,
@@ -128,11 +128,11 @@ export type {
 
 // Fluent Builder API (modern TypeScript patterns)
 export {
-  unilmp,
+  unillm,
   quick,
   groq,
   gemini,
   cloudflare,
-  UnilmpBuilder,
-  UnilmpStructuredBuilder,
+  UnillmBuilder,
+  UnillmStructuredBuilder,
 } from "./fluent.js";
