@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "zod": "^3.24.1",
-    "@aid-on/nagare": "file:../nagare"
+    "@aid-on/nagare": "file:./nagare"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20241230.0",
