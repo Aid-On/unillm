@@ -105,7 +105,7 @@ await gemini.flash("AIza...").generate("Hello");
 await cloudflare.llama({ accountId: "...", apiToken: "..." }).generate("Hello");
 ```
 
-## Supported Models (31 Models)
+## Supported Models (28 Models)
 
 ### Groq (7 models)
 - `groq:llama-3.3-70b-versatile` - Llama 3.3 70B Versatile
@@ -126,7 +126,7 @@ await cloudflare.llama({ accountId: "...", apiToken: "..." }).generate("Hello");
 - `gemini:gemini-1.5-pro-002` - Gemini 1.5 Pro 002
 - `gemini:gemini-1.5-flash-002` - Gemini 1.5 Flash 002
 
-### Cloudflare Workers AI (14 models)
+### Cloudflare Workers AI (13 models)
 - `cloudflare:@cf/meta/llama-4-scout-17b-16e-instruct` - Llama 4 Scout
 - `cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast` - Llama 3.3 70B FP8
 - `cloudflare:@cf/meta/llama-3.1-70b-instruct` - Llama 3.1 70B
@@ -140,7 +140,6 @@ await cloudflare.llama({ accountId: "...", apiToken: "..." }).generate("Hello");
 - `cloudflare:@cf/google/gemma-3-12b-it` - Gemma 3 12B
 - `cloudflare:@cf/qwen/qwq-32b` - QwQ 32B
 - `cloudflare:@cf/qwen/qwen2.5-coder-32b-instruct` - Qwen 2.5 Coder
-- `cloudflare:@cf/qwen/qwen3-30b-a3b-fp8` - Qwen 3 30B
 
 ## Advanced Usage
 
