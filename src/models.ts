@@ -13,6 +13,99 @@ import type { ModelSpec, ModelInfo, ProviderType, Credentials } from "./types.js
  */
 export const MODELS: ModelInfo[] = [
   // ==========================================================================
+  // OpenAI models (verified 2025-12-26)
+  // ==========================================================================
+  
+  // GPT-4o Series
+  {
+    spec: "openai:gpt-4o",
+    provider: "openai",
+    model: "gpt-4o",
+    name: "GPT-4o (Latest)",
+    contextWindow: 128000,
+    speed: "fast",
+    cost: "high",
+  },
+  {
+    spec: "openai:gpt-4o-mini",
+    provider: "openai",
+    model: "gpt-4o-mini",
+    name: "GPT-4o Mini",
+    contextWindow: 128000,
+    speed: "fast",
+    cost: "low",
+  },
+  {
+    spec: "openai:gpt-4o-2024-11-20",
+    provider: "openai",
+    model: "gpt-4o-2024-11-20",
+    name: "GPT-4o (2024-11-20)",
+    contextWindow: 128000,
+    speed: "fast",
+    cost: "high",
+  },
+  {
+    spec: "openai:gpt-4o-2024-08-06",
+    provider: "openai",
+    model: "gpt-4o-2024-08-06",
+    name: "GPT-4o (2024-08-06)",
+    contextWindow: 128000,
+    speed: "fast",
+    cost: "high",
+  },
+  
+  // GPT-4 Turbo
+  {
+    spec: "openai:gpt-4-turbo",
+    provider: "openai",
+    model: "gpt-4-turbo",
+    name: "GPT-4 Turbo",
+    contextWindow: 128000,
+    speed: "medium",
+    cost: "high",
+  },
+  {
+    spec: "openai:gpt-4-turbo-preview",
+    provider: "openai",
+    model: "gpt-4-turbo-preview",
+    name: "GPT-4 Turbo Preview",
+    contextWindow: 128000,
+    speed: "medium",
+    cost: "high",
+  },
+  
+  // GPT-4
+  {
+    spec: "openai:gpt-4",
+    provider: "openai",
+    model: "gpt-4",
+    name: "GPT-4",
+    contextWindow: 8192,
+    speed: "slow",
+    cost: "high",
+  },
+  
+  // GPT-3.5 Turbo
+  {
+    spec: "openai:gpt-3.5-turbo",
+    provider: "openai",
+    model: "gpt-3.5-turbo",
+    name: "GPT-3.5 Turbo",
+    contextWindow: 16385,
+    speed: "fast",
+    cost: "low",
+  },
+  {
+    spec: "openai:gpt-3.5-turbo-0125",
+    provider: "openai",
+    model: "gpt-3.5-turbo-0125",
+    name: "GPT-3.5 Turbo (0125)",
+    contextWindow: 16385,
+    speed: "fast",
+    cost: "low",
+  },
+  
+  // ==========================================================================
   // Groq models (verified 2025-01-15) 
   // ==========================================================================
   
@@ -353,6 +446,7 @@ export function getRecommendedModels(): ModelInfo[] {
  * Default model specs for each provider
  */
 export const DEFAULT_SPECS: Record<ProviderType, ModelSpec> = {
+  openai: "openai:gpt-4o-mini",
   groq: "groq:llama-3.1-8b-instant",
   gemini: "gemini:gemini-2.0-flash",
   cloudflare: "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast",
@@ -370,6 +464,7 @@ export function isValidSpec(spec: string): spec is ModelSpec {
  */
 export function getAvailableProviders(credentials: Credentials): ProviderType[] {
   const providers: ProviderType[] = [];
+  if (credentials.openaiApiKey) providers.push("openai");
   if (credentials.groqApiKey) providers.push("groq");
   if (credentials.geminiApiKey) providers.push("gemini");
   if (credentials.cloudflareAccountId) providers.push("cloudflare");

@@ -439,6 +439,43 @@ export function quick(model: ModelSpec | string, credentials: Credentials): Unil
 // =============================================================================
 
 /**
+ * OpenAI-specific builder shortcuts with streaming support
+ */
+export const openai = {
+  /** GPT-4o - Latest and fastest */
+  gpt4o: (apiKey: string) => Object.assign(quick("openai:gpt-4o", { openaiApiKey: apiKey }), {
+    stream: async (prompt: string): Promise<Stream<string>> => {
+      const builder = quick("openai:gpt-4o", { openaiApiKey: apiKey });
+      return builder.stream(prompt);
+    }
+  }),
+  
+  /** GPT-4o Mini - Cost-effective */
+  mini: (apiKey: string) => Object.assign(quick("openai:gpt-4o-mini", { openaiApiKey: apiKey }), {
+    stream: async (prompt: string): Promise<Stream<string>> => {
+      const builder = quick("openai:gpt-4o-mini", { openaiApiKey: apiKey });
+      return builder.stream(prompt);
+    }
+  }),
+  
+  /** GPT-4 Turbo - High capability */
+  turbo: (apiKey: string) => Object.assign(quick("openai:gpt-4-turbo", { openaiApiKey: apiKey }), {
+    stream: async (prompt: string): Promise<Stream<string>> => {
+      const builder = quick("openai:gpt-4-turbo", { openaiApiKey: apiKey });
+      return builder.stream(prompt);
+    }
+  }),
+  
+  /** GPT-3.5 Turbo - Fast and cheap */
+  gpt35: (apiKey: string) => Object.assign(quick("openai:gpt-3.5-turbo", { openaiApiKey: apiKey }), {
+    stream: async (prompt: string): Promise<Stream<string>> => {
+      const builder = quick("openai:gpt-3.5-turbo", { openaiApiKey: apiKey });
+      return builder.stream(prompt);
+    }
+  }),
+};
+
+/**
  * Groq-specific builder shortcuts with streaming support
  */
 export const groq = {

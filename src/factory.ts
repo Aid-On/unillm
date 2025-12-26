@@ -32,8 +32,8 @@ export function parseModelSpec(spec: string): ParsedModelSpec {
   const provider = spec.slice(0, colonIndex) as ProviderType;
   const model = spec.slice(colonIndex + 1);
 
-  if (!["groq", "gemini", "cloudflare"].includes(provider)) {
-    throw new Error(`Unknown provider: "${provider}". Expected: groq, gemini, or cloudflare`);
+  if (!["openai", "groq", "gemini", "cloudflare"].includes(provider)) {
+    throw new Error(`Unknown provider: "${provider}". Expected: openai, groq, gemini, or cloudflare`);
   }
 
   if (!model) {
@@ -50,6 +50,44 @@ export function parseModelSpec(spec: string): ParsedModelSpec {
 // =============================================================================
 // Edge-Native LLM API Functions
 // =============================================================================
+
+/**
+ * Generate text using OpenAI API (edge-native)
+ */
+export async function generateWithOpenAI(
+  model: string,
+  messages: Array<{ role: string; content: string }>,
+  apiKey: string,
+  options: { temperature?: number; maxTokens?: number } = {}
+): Promise<{ text: string; usage?: { promptTokens: number; completionTokens: number } }> {
+  const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      model,
+      messages,
+      temperature: options.temperature || 0.7,
+      max_tokens: options.maxTokens,
+    }),
+  });
+
+  if (!response.ok) {
+    const text = await response.text();
+    throw new Error(`OpenAI API error: ${response.status} ${text}`);
+  }
+
+  const result = await response.json() as any;
+  return {
+    text: result.choices?.[0]?.message?.content || "",
+    usage: result.usage ? {
+      promptTokens: result.usage.prompt_tokens,
+      completionTokens: result.usage.completion_tokens,
+    } : undefined,
+  };
+}
 
 /**
  * Generate text using Groq API (edge-native)
@@ -171,6 +209,13 @@ export async function generate(
   const { provider, model } = parseModelSpec(spec);
 
   switch (provider) {
+    case "openai": {
+      if (!credentials.openaiApiKey) {
+        throw new Error("openaiApiKey is required for OpenAI models");
+      }
+      return generateWithOpenAI(model, messages, credentials.openaiApiKey, options);
+    }
+
     case "groq": {
       if (!credentials.groqApiKey) {
         throw new Error("groqApiKey is required for Groq models");
@@ -225,6 +270,8 @@ function extractGptOssResponse(result: any): string {
  */
 export function hasCredentials(provider: ProviderType, credentials: Credentials): boolean {
   switch (provider) {
+    case "openai":
+      return !!credentials.openaiApiKey;
     case "groq":
       return !!credentials.groqApiKey;
     case "gemini":
@@ -239,6 +286,7 @@ export function hasCredentials(provider: ProviderType, credentials: Credentials)
  */
 export function getCredentialsFromEnv(): Credentials {
   return {
+    openaiApiKey: process.env.OPENAI_API_KEY,
     groqApiKey: process.env.GROQ_API_KEY,
     geminiApiKey: process.env.GEMINI_API_KEY,
     cloudflareApiKey: process.env.CLOUDFLARE_API_KEY,
