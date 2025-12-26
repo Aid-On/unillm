@@ -11,7 +11,7 @@
 ## Features
 
 - 🚀 **Edge-First**: ~50KB bundle size, ~10ms cold start, optimized for edge runtimes
-- 🔄 **Unified Interface**: Single API for Groq, Gemini, Cloudflare, and more
+- 🔄 **Unified Interface**: Single API for OpenAI, Groq, Gemini, Cloudflare, and more
 - 🌊 **Streaming Native**: Built on Web Streams API with nagare integration
 - 🎯 **Type-Safe**: Full TypeScript support with Zod schema validation
 - 📦 **Minimal Dependencies**: Only Zod (~11KB) required
@@ -38,8 +38,8 @@ import { unillm } from "@aid-on/unillm";
 
 // Fluent API with type safety
 const response = await unillm()
-  .model("groq:llama-3.3-70b-versatile")
-  .credentials({ groqApiKey: process.env.GROQ_API_KEY })
+  .model("openai:gpt-4o-mini")
+  .credentials({ openaiApiKey: process.env.OPENAI_API_KEY })
   .temperature(0.7)
   .generate("Explain quantum computing in simple terms");
 
@@ -97,15 +97,27 @@ console.log(result.object.skills);   // string[]
 Ultra-concise syntax for common models:
 
 ```typescript
-import { groq, gemini, cloudflare } from "@aid-on/unillm";
+import { openai, groq, gemini, cloudflare } from "@aid-on/unillm";
 
 // One-liners for quick prototyping
+await openai.mini("sk-...").generate("Hello");
 await groq.instant("gsk_...").generate("Hello");
 await gemini.flash("AIza...").generate("Hello");
 await cloudflare.llama({ accountId: "...", apiToken: "..." }).generate("Hello");
 ```
 
-## Supported Models (28 Models)
+## Supported Models (37 Models)
+
+### OpenAI (9 models)
+- `openai:gpt-4o` - GPT-4o (Latest, fastest GPT-4)
+- `openai:gpt-4o-mini` - GPT-4o Mini (Cost-effective)
+- `openai:gpt-4o-2024-11-20` - GPT-4o November snapshot
+- `openai:gpt-4o-2024-08-06` - GPT-4o August snapshot
+- `openai:gpt-4-turbo` - GPT-4 Turbo (High capability)
+- `openai:gpt-4-turbo-preview` - GPT-4 Turbo Preview
+- `openai:gpt-4` - GPT-4 (Original)
+- `openai:gpt-3.5-turbo` - GPT-3.5 Turbo (Fast & cheap)
+- `openai:gpt-3.5-turbo-0125` - GPT-3.5 Turbo Latest
 
 ### Groq (7 models)
 - `groq:llama-3.3-70b-versatile` - Llama 3.3 70B Versatile

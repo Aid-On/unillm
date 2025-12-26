@@ -38,6 +38,7 @@ export type {
 // Core Edge-Native API
 export {
   generate,
+  generateWithOpenAI,
   generateWithGroq,
   generateWithGemini,
   parseModelSpec,
@@ -130,6 +131,7 @@ export type {
 export {
   unillm,
   quick,
+  openai,
   groq,
   gemini,
   cloudflare,
