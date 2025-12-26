@@ -11,7 +11,7 @@
 ## Features
 
 - 🚀 **Edge-First**: ~50KB bundle size, ~10ms cold start, optimized for edge runtimes
-- 🔄 **Unified Interface**: Single API for OpenAI, Groq, Gemini, Cloudflare, and more
+- 🔄 **Unified Interface**: Single API for Anthropic, OpenAI, Groq, Gemini, Cloudflare, and more
 - 🌊 **Streaming Native**: Built on Web Streams API with nagare integration
 - 🎯 **Type-Safe**: Full TypeScript support with Zod schema validation
 - 📦 **Minimal Dependencies**: Only Zod (~11KB) required
@@ -97,16 +97,22 @@ console.log(result.object.skills);   // string[]
 Ultra-concise syntax for common models:
 
 ```typescript
-import { openai, groq, gemini, cloudflare } from "@aid-on/unillm";
+import { anthropic, openai, groq, gemini, cloudflare } from "@aid-on/unillm";
 
 // One-liners for quick prototyping
+await anthropic.sonnet("sk-ant-...").generate("Hello");
 await openai.mini("sk-...").generate("Hello");
 await groq.instant("gsk_...").generate("Hello");
 await gemini.flash("AIza...").generate("Hello");
 await cloudflare.llama({ accountId: "...", apiToken: "..." }).generate("Hello");
 ```
 
-## Supported Models (37 Models)
+## Supported Models (40 Models)
+
+### Anthropic (3 models)
+- `anthropic:claude-sonnet-4-5-20250929` - Claude Sonnet 4.5 (Latest 2025) ✅
+- `anthropic:claude-3-5-haiku-20241022` - Claude 3.5 Haiku (Fast & cheap) ✅
+- `anthropic:claude-3-haiku-20240307` - Claude 3 Haiku ✅
 
 ### OpenAI (9 models)
 - `openai:gpt-4o` - GPT-4o (Latest, fastest GPT-4)
