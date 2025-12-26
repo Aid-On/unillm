@@ -32,8 +32,8 @@ export function parseModelSpec(spec: string): ParsedModelSpec {
   const provider = spec.slice(0, colonIndex) as ProviderType;
   const model = spec.slice(colonIndex + 1);
 
-  if (!["openai", "groq", "gemini", "cloudflare"].includes(provider)) {
-    throw new Error(`Unknown provider: "${provider}". Expected: openai, groq, gemini, or cloudflare`);
+  if (!["anthropic", "openai", "groq", "gemini", "cloudflare"].includes(provider)) {
+    throw new Error(`Unknown provider: "${provider}". Expected: anthropic, openai, groq, gemini, or cloudflare`);
   }
 
   if (!model) {
@@ -50,6 +50,60 @@ export function parseModelSpec(spec: string): ParsedModelSpec {
 // =============================================================================
 // Edge-Native LLM API Functions
 // =============================================================================
+
+/**
+ * Generate text using Anthropic API (edge-native)
+ * Note: Anthropic uses Messages API format, different from OpenAI format
+ */
+export async function generateWithAnthropic(
+  model: string,
+  messages: Array<{ role: string; content: string }>,
+  apiKey: string,
+  options: { temperature?: number; maxTokens?: number } = {}
+): Promise<{ text: string; usage?: { promptTokens: number; completionTokens: number } }> {
+  // Convert messages to Anthropic format
+  const anthropicMessages = messages.map(msg => ({
+    role: msg.role === "user" ? "user" : "assistant",
+    content: msg.content,
+  }));
+  
+  // Extract system message if present
+  const systemIndex = messages.findIndex(m => m.role === "system");
+  const system = systemIndex >= 0 ? messages[systemIndex].content : undefined;
+  const finalMessages = systemIndex >= 0 
+    ? anthropicMessages.filter((_, i) => i !== systemIndex)
+    : anthropicMessages;
+
+  const response = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: {
+      "x-api-key": apiKey,
+      "anthropic-version": "2023-06-01",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      model,
+      messages: finalMessages,
+      system,
+      max_tokens: options.maxTokens || 4096,
+      temperature: options.temperature || 0.7,
+    }),
+  });
+
+  if (!response.ok) {
+    const text = await response.text();
+    throw new Error(`Anthropic API error: ${response.status} ${text}`);
+  }
+
+  const result = await response.json() as any;
+  return {
+    text: result.content?.[0]?.text || "",
+    usage: result.usage ? {
+      promptTokens: result.usage.input_tokens,
+      completionTokens: result.usage.output_tokens,
+    } : undefined,
+  };
+}
 
 /**
  * Generate text using OpenAI API (edge-native)
@@ -209,6 +263,13 @@ export async function generate(
   const { provider, model } = parseModelSpec(spec);
 
   switch (provider) {
+    case "anthropic": {
+      if (!credentials.anthropicApiKey) {
+        throw new Error("anthropicApiKey is required for Anthropic models");
+      }
+      return generateWithAnthropic(model, messages, credentials.anthropicApiKey, options);
+    }
+
     case "openai": {
       if (!credentials.openaiApiKey) {
         throw new Error("openaiApiKey is required for OpenAI models");
@@ -270,6 +331,8 @@ function extractGptOssResponse(result: any): string {
  */
 export function hasCredentials(provider: ProviderType, credentials: Credentials): boolean {
   switch (provider) {
+    case "anthropic":
+      return !!credentials.anthropicApiKey;
     case "openai":
       return !!credentials.openaiApiKey;
     case "groq":
@@ -286,6 +349,7 @@ export function hasCredentials(provider: ProviderType, credentials: Credentials)
  */
 export function getCredentialsFromEnv(): Credentials {
   return {
+    anthropicApiKey: process.env.ANTHROPIC_API_KEY,
     openaiApiKey: process.env.OPENAI_API_KEY,
     groqApiKey: process.env.GROQ_API_KEY,
     geminiApiKey: process.env.GEMINI_API_KEY,

@@ -10,11 +10,20 @@
 // Provider Types
 // =============================================================================
 
-export type ProviderType = "groq" | "gemini" | "cloudflare" | "openai";
+export type ProviderType = "groq" | "gemini" | "cloudflare" | "openai" | "anthropic";
 
 // =============================================================================
 // Model Definitions
 // =============================================================================
+
+/** Anthropic supported models (verified 2025-12-26) */
+export type AnthropicModel =
+  // Claude 4.5 Series (2025 Latest) ✅
+  | "claude-sonnet-4-5-20250929"
+  // Claude 3.5 Series ✅
+  | "claude-3-5-haiku-20241022"
+  // Claude 3 Series ✅
+  | "claude-3-haiku-20240307";
 
 /** OpenAI supported models (verified 2025-12-26) */
 export type OpenAIModel =
@@ -102,7 +111,7 @@ export type CloudflareModel =
   | "@cf/qwen/qwen3-30b-a3b-fp8";
 
 /** All model types */
-export type AnyModel = OpenAIModel | GroqModel | GeminiModel | CloudflareModel;
+export type AnyModel = AnthropicModel | OpenAIModel | GroqModel | GeminiModel | CloudflareModel;
 
 // =============================================================================
 // ModelSpec - The Core Concept
@@ -112,12 +121,14 @@ export type AnyModel = OpenAIModel | GroqModel | GeminiModel | CloudflareModel;
  * ModelSpec: "provider:model" format string
  *
  * Examples:
+ * - "anthropic:claude-3-5-sonnet-latest"
  * - "openai:gpt-4o"
  * - "groq:llama-3.1-8b-instant"
  * - "gemini:gemini-2.0-flash"
  * - "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast"
  */
 export type ModelSpec =
+  | `anthropic:${AnthropicModel}`
   | `openai:${OpenAIModel}`
   | `groq:${GroqModel}`
   | `gemini:${GeminiModel}`
@@ -137,6 +148,7 @@ export interface ParsedModelSpec {
 // =============================================================================
 
 export interface Credentials {
+  anthropicApiKey?: string;
   openaiApiKey?: string;
   groqApiKey?: string;
   geminiApiKey?: string;

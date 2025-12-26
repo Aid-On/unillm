@@ -248,6 +248,40 @@ export class UnillmBuilder {
     let readableStream: ReadableStream<string>;
 
     switch (provider) {
+      case "anthropic": {
+        if (!this.state.credentials?.anthropicApiKey) {
+          throw new Error("anthropicApiKey is required for Anthropic streaming");
+        }
+        
+        readableStream = await createAnthropicStream(
+          model,
+          messages,
+          this.state.credentials.anthropicApiKey,
+          {
+            temperature: this.state.temperature,
+            maxTokens: this.state.maxTokens,
+          }
+        );
+        break;
+      }
+
+      case "openai": {
+        if (!this.state.credentials?.openaiApiKey) {
+          throw new Error("openaiApiKey is required for OpenAI streaming");
+        }
+        
+        readableStream = await createOpenAIStream(
+          model,
+          messages,
+          this.state.credentials.openaiApiKey,
+          {
+            temperature: this.state.temperature,
+            maxTokens: this.state.maxTokens,
+          }
+        );
+        break;
+      }
+
       case "groq": {
         if (!this.state.credentials?.groqApiKey) {
           throw new Error("groqApiKey is required for Groq streaming");
@@ -437,6 +471,29 @@ export function quick(model: ModelSpec | string, credentials: Credentials): Unil
 // =============================================================================
 // Provider-Specific Shortcuts
 // =============================================================================
+
+/**
+ * Anthropic-specific builder shortcuts with streaming support
+ */
+export const anthropic = {
+  /** Claude 4.5 Sonnet - Latest 2025, most capable */
+  sonnet: (apiKey: string) => Object.assign(quick("anthropic:claude-sonnet-4-5-20250929", { anthropicApiKey: apiKey }), {
+    stream: async (prompt: string): Promise<Stream<string>> => {
+      const builder = quick("anthropic:claude-sonnet-4-5-20250929", { anthropicApiKey: apiKey });
+      return builder.stream(prompt);
+    }
+  }),
+  
+  /** Claude 3.5 Haiku - Fast and cheap */
+  haiku: (apiKey: string) => Object.assign(quick("anthropic:claude-3-5-haiku-20241022", { anthropicApiKey: apiKey }), {
+    stream: async (prompt: string): Promise<Stream<string>> => {
+      const builder = quick("anthropic:claude-3-5-haiku-20241022", { anthropicApiKey: apiKey });
+      return builder.stream(prompt);
+    }
+  }),
+  
+  
+};
 
 /**
  * OpenAI-specific builder shortcuts with streaming support
@@ -681,6 +738,135 @@ function getModelConfig(model: string) {
 // =============================================================================
 // Streaming Implementation Functions
 // =============================================================================
+
+/**
+ * Create Anthropic streaming ReadableStream
+ */
+async function createAnthropicStream(
+  model: string,
+  messages: Array<{ role: string; content: string }>,
+  apiKey: string,
+  options?: { temperature?: number; maxTokens?: number }
+): Promise<ReadableStream<string>> {
+  // Convert messages to Anthropic format
+  const anthropicMessages = messages
+    .filter(m => m.role !== "system")
+    .map(msg => ({
+      role: msg.role === "user" ? "user" : "assistant",
+      content: msg.content,
+    }));
+  
+  const system = messages.find(m => m.role === "system")?.content;
+
+  const response = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: {
+      "x-api-key": apiKey,
+      "anthropic-version": "2023-06-01",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      model,
+      messages: anthropicMessages,
+      system,
+      max_tokens: options?.maxTokens || 4096,
+      temperature: options?.temperature || 0.7,
+      stream: true,
+    }),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Anthropic streaming failed: ${response.status} - ${errorText}`);
+  }
+
+  if (!response.body) {
+    throw new Error("No response body for Anthropic streaming");
+  }
+
+  // Parse SSE stream
+  return response.body.pipeThrough(new TextDecoderStream()).pipeThrough(new TransformStream({
+    transform(chunk, controller) {
+      const lines = chunk.split('\n');
+      
+      for (const line of lines) {
+        if (line.startsWith('data: ')) {
+          const data = line.slice(6);
+          if (data === '[DONE]') continue;
+          
+          try {
+            const parsed = JSON.parse(data);
+            
+            // Anthropic stream format
+            if (parsed.type === 'content_block_delta' && parsed.delta?.text) {
+              controller.enqueue(parsed.delta.text);
+            }
+          } catch (e) {
+            // Ignore parse errors
+          }
+        }
+      }
+    }
+  }));
+}
+
+/**
+ * Create OpenAI streaming ReadableStream
+ */
+async function createOpenAIStream(
+  model: string,
+  messages: Array<{ role: string; content: string }>,
+  apiKey: string,
+  options?: { temperature?: number; maxTokens?: number }
+): Promise<ReadableStream<string>> {
+  const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      model,
+      messages,
+      stream: true,
+      temperature: options?.temperature || 0.7,
+      max_tokens: options?.maxTokens,
+    }),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`OpenAI streaming failed: ${response.status} - ${errorText}`);
+  }
+
+  if (!response.body) {
+    throw new Error("No response body for OpenAI streaming");
+  }
+
+  // Parse SSE stream (same format as Groq)
+  return response.body.pipeThrough(new TextDecoderStream()).pipeThrough(new TransformStream({
+    transform(chunk, controller) {
+      const lines = chunk.split('\n');
+      
+      for (const line of lines) {
+        if (line.startsWith('data: ')) {
+          const data = line.slice(6);
+          if (data === '[DONE]') continue;
+          
+          try {
+            const parsed = JSON.parse(data);
+            const content = parsed.choices?.[0]?.delta?.content;
+            if (content) {
+              controller.enqueue(content);
+            }
+          } catch (e) {
+            // Ignore parse errors
+          }
+        }
+      }
+    }
+  }));
+}
 
 /**
  * Create Groq streaming ReadableStream

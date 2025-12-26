@@ -13,6 +13,44 @@ import type { ModelSpec, ModelInfo, ProviderType, Credentials } from "./types.js
  */
 export const MODELS: ModelInfo[] = [
   // ==========================================================================
+  // Anthropic models (verified 2025-12-26)
+  // ==========================================================================
+  
+  // Claude 4.5 Series (2025 Latest)
+  {
+    spec: "anthropic:claude-sonnet-4-5-20250929",
+    provider: "anthropic",
+    model: "claude-sonnet-4-5-20250929",
+    name: "Claude Sonnet 4.5 (Latest 2025)",
+    contextWindow: 200000,
+    speed: "fast",
+    cost: "medium",
+  },
+  
+  // Claude 3.5 Series
+  {
+    spec: "anthropic:claude-3-5-haiku-20241022",
+    provider: "anthropic",
+    model: "claude-3-5-haiku-20241022",
+    name: "Claude 3.5 Haiku",
+    contextWindow: 200000,
+    speed: "fast",
+    cost: "low",
+  },
+  
+  // Claude 3 Series
+  {
+    spec: "anthropic:claude-3-haiku-20240307",
+    provider: "anthropic",
+    model: "claude-3-haiku-20240307",
+    name: "Claude 3 Haiku",
+    contextWindow: 200000,
+    speed: "fast",
+    cost: "low",
+  },
+  
+  
+  // ==========================================================================
   // OpenAI models (verified 2025-12-26)
   // ==========================================================================
   
@@ -446,6 +484,7 @@ export function getRecommendedModels(): ModelInfo[] {
  * Default model specs for each provider
  */
 export const DEFAULT_SPECS: Record<ProviderType, ModelSpec> = {
+  anthropic: "anthropic:claude-sonnet-4-5-20250929",
   openai: "openai:gpt-4o-mini",
   groq: "groq:llama-3.1-8b-instant",
   gemini: "gemini:gemini-2.0-flash",
@@ -464,6 +503,7 @@ export function isValidSpec(spec: string): spec is ModelSpec {
  */
 export function getAvailableProviders(credentials: Credentials): ProviderType[] {
   const providers: ProviderType[] = [];
+  if (credentials.anthropicApiKey) providers.push("anthropic");
   if (credentials.openaiApiKey) providers.push("openai");
   if (credentials.groqApiKey) providers.push("groq");
   if (credentials.geminiApiKey) providers.push("gemini");
