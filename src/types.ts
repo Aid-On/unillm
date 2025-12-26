@@ -18,11 +18,20 @@ export type ProviderType = "groq" | "gemini" | "cloudflare" | "openai" | "anthro
 
 /** Anthropic supported models (verified 2025-12-26) */
 export type AnthropicModel =
-  // Claude 4.5 Series (2025 Latest) ✅
+  // Claude Opus 4.5 Series (2025 Latest)
+  | "claude-opus-4-5-20251101"
+  // Claude Haiku 4.5 Series
+  | "claude-haiku-4-5-20251001"
+  // Claude Sonnet 4.5 Series
   | "claude-sonnet-4-5-20250929"
-  // Claude 3.5 Series ✅
+  // Claude Opus 4.1 Series
+  | "claude-opus-4-1-20250805"
+  // Claude 4 Series
+  | "claude-opus-4-20250514"
+  | "claude-sonnet-4-20250514"
+  // Claude 3.5 Series
   | "claude-3-5-haiku-20241022"
-  // Claude 3 Series ✅
+  // Claude 3 Series
   | "claude-3-haiku-20240307";
 
 /** OpenAI supported models (verified 2025-12-26) */

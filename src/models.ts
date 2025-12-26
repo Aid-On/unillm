@@ -16,12 +16,65 @@ export const MODELS: ModelInfo[] = [
   // Anthropic models (verified 2025-12-26)
   // ==========================================================================
   
-  // Claude 4.5 Series (2025 Latest)
+  // Claude Opus 4.5 Series (2025 Latest)
+  {
+    spec: "anthropic:claude-opus-4-5-20251101",
+    provider: "anthropic",
+    model: "claude-opus-4-5-20251101",
+    name: "Claude Opus 4.5 (Most Intelligent)",
+    contextWindow: 200000,
+    speed: "slow",
+    cost: "high",
+  },
+  
+  // Claude Haiku 4.5 Series
+  {
+    spec: "anthropic:claude-haiku-4-5-20251001",
+    provider: "anthropic",
+    model: "claude-haiku-4-5-20251001",
+    name: "Claude Haiku 4.5 (Ultra Fast)",
+    contextWindow: 200000,
+    speed: "fast",
+    cost: "low",
+  },
+  
+  // Claude Sonnet 4.5 Series
   {
     spec: "anthropic:claude-sonnet-4-5-20250929",
     provider: "anthropic",
     model: "claude-sonnet-4-5-20250929",
-    name: "Claude Sonnet 4.5 (Latest 2025)",
+    name: "Claude Sonnet 4.5 (Best for Coding)",
+    contextWindow: 200000,
+    speed: "fast",
+    cost: "medium",
+  },
+  
+  // Claude Opus 4.1 Series
+  {
+    spec: "anthropic:claude-opus-4-1-20250805",
+    provider: "anthropic",
+    model: "claude-opus-4-1-20250805",
+    name: "Claude Opus 4.1",
+    contextWindow: 200000,
+    speed: "slow",
+    cost: "high",
+  },
+  
+  // Claude 4 Series
+  {
+    spec: "anthropic:claude-opus-4-20250514",
+    provider: "anthropic",
+    model: "claude-opus-4-20250514",
+    name: "Claude Opus 4",
+    contextWindow: 200000,
+    speed: "slow",
+    cost: "high",
+  },
+  {
+    spec: "anthropic:claude-sonnet-4-20250514",
+    provider: "anthropic",
+    model: "claude-sonnet-4-20250514",
+    name: "Claude Sonnet 4",
     contextWindow: 200000,
     speed: "fast",
     cost: "medium",

@@ -28,7 +28,7 @@ describe("parseModelSpec", () => {
 
   it("should throw for unknown provider", () => {
     expect(() => parseModelSpec("unknown:model")).toThrow(
-      'Unknown provider: "unknown". Expected: groq, gemini, or cloudflare'
+      'Unknown provider: "unknown". Expected: anthropic, openai, groq, gemini, or cloudflare'
     );
   });
 
