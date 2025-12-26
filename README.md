@@ -107,12 +107,17 @@ await gemini.flash("AIza...").generate("Hello");
 await cloudflare.llama({ accountId: "...", apiToken: "..." }).generate("Hello");
 ```
 
-## Supported Models (40 Models)
+## Supported Models (48 Models)
 
-### Anthropic (3 models)
-- `anthropic:claude-sonnet-4-5-20250929` - Claude Sonnet 4.5 (Latest 2025) ✅
-- `anthropic:claude-3-5-haiku-20241022` - Claude 3.5 Haiku (Fast & cheap) ✅
-- `anthropic:claude-3-haiku-20240307` - Claude 3 Haiku ✅
+### Anthropic (8 models) - v0.4.0
+- `anthropic:claude-opus-4-5-20251101` - Claude Opus 4.5 (Most Intelligent)
+- `anthropic:claude-haiku-4-5-20251001` - Claude Haiku 4.5 (Ultra Fast)
+- `anthropic:claude-sonnet-4-5-20250929` - Claude Sonnet 4.5 (Best for Coding)
+- `anthropic:claude-opus-4-1-20250805` - Claude Opus 4.1
+- `anthropic:claude-opus-4-20250514` - Claude Opus 4
+- `anthropic:claude-sonnet-4-20250514` - Claude Sonnet 4
+- `anthropic:claude-3-5-haiku-20241022` - Claude 3.5 Haiku
+- `anthropic:claude-3-haiku-20240307` - Claude 3 Haiku
 
 ### OpenAI (9 models)
 - `openai:gpt-4o` - GPT-4o (Latest, fastest GPT-4)

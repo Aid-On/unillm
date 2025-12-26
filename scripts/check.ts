@@ -17,7 +17,7 @@ import { z } from "zod";
 import type { CheckResult, CheckOptions, ModelSpec, Credentials } from "../src/types.js";
 import { generate, parseModelSpec, getCredentialsFromEnv, callCloudflareRest, callCloudflareRestStream } from "../src/factory.js";
 import { MODELS, getModelInfo, DEFAULT_SPECS } from "../src/models.js";
-import { unilmp } from "../src/fluent.js";
+import { unillm } from "../src/fluent.js";
 import { getStreamHandler } from "../src/streaming-handlers.js";
 
 // =============================================================================
@@ -332,7 +332,7 @@ async function testStream(
         }
       } else {
         // Use fluent API for standard models
-        const stream = await unilmp()
+        const stream = await unillm()
           .model(spec)
           .credentials(credentials)
           .system(TEST_SYSTEM)
