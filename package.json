@@ -1,16 +1,19 @@
 {
   "name": "@aid-on/unillm",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Edge-native unified LLM provider - pure fetch API, minimal dependencies (zod), WebStreams, memory optimization for Cloudflare Workers and edge computing environments",
   "type": "module",
   "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
     }
   },
+  "sideEffects": false,
   "files": [
     "dist",
     "README.md",
@@ -23,7 +26,7 @@
     "vercel-edge",
     "ai",
     "openai",
-    "groq", 
+    "groq",
     "gemini",
     "webstreams",
     "typescript",
@@ -31,23 +34,25 @@
     "serverless"
   ],
   "scripts": {
-    "build": "tsc",
-    "typecheck": "tsc --noEmit", 
+    "build": "tsup",
+    "build:tsc": "tsc",
+    "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
     "check": "npx tsx scripts/check.ts",
     "check:all": "npx tsx scripts/check.ts --list"
   },
   "dependencies": {
-    "zod": "^3.24.1",
-    "@aid-on/nagare": "^0.1.0"
+    "@aid-on/nagare": "^0.2.0",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20241230.0",
     "@types/node": "^22.10.2",
+    "tsup": "^8.5.1",
+    "tsx": "^4.19.2",
     "typescript": "^5.7.2",
-    "vitest": "^2.1.8",
-    "tsx": "^4.19.2"
+    "vitest": "^2.1.8"
   },
   "repository": {
     "type": "git",
