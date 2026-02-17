@@ -110,7 +110,7 @@ Example format: {"field1": "value1", "field2": 123}`;
 export function extractJSON<T extends z.ZodType>(
   text: string,
   schema?: T
-): T extends z.ZodType ? z.infer<T> : any {
+): T extends z.ZodType ? z.infer<T> : unknown {
   // Try to find JSON in the text
   const jsonMatch = text.match(/\{[\s\S]*\}/);
   if (!jsonMatch) {

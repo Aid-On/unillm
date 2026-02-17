@@ -106,6 +106,25 @@ export function statusToErrorCode(status: number): LLMErrorCode {
 }
 
 /**
+ * Detect error code from message content
+ */
+function detectErrorCode(lowerMessage: string): { code: LLMErrorCode; statusCode?: number } {
+  const patterns: Array<{ keywords: string[]; code: LLMErrorCode; statusCode?: number }> = [
+    { keywords: ["rate limit", "429"], code: "RATE_LIMIT", statusCode: 429 },
+    { keywords: ["timeout", "timed out"], code: "TIMEOUT" },
+    { keywords: ["unauthorized", "authentication", "api key", "401", "403"], code: "AUTH" },
+    { keywords: ["network", "econnrefused", "enotfound", "fetch failed"], code: "NETWORK" },
+    { keywords: ["500", "internal server"], code: "SERVER_ERROR", statusCode: 500 },
+  ];
+  for (const pattern of patterns) {
+    if (pattern.keywords.some(k => lowerMessage.includes(k))) {
+      return { code: pattern.code, statusCode: pattern.statusCode };
+    }
+  }
+  return { code: "UNKNOWN" };
+}
+
+/**
  * Wrap any error into an LLMProviderError
  */
 export function wrapError(
@@ -113,92 +132,24 @@ export function wrapError(
   provider?: ProviderType,
   context?: string
 ): LLMProviderError {
-  // Already an LLMProviderError
   if (error instanceof LLMProviderError) {
     return error;
   }
 
-  // Standard Error
   if (error instanceof Error) {
     const message = context ? `${context}: ${error.message}` : error.message;
-
-    // Detect common error patterns
-    const lowerMessage = error.message.toLowerCase();
-
-    if (lowerMessage.includes("rate limit") || lowerMessage.includes("429")) {
-      return new LLMProviderError({
-        message,
-        code: "RATE_LIMIT",
-        provider,
-        statusCode: 429,
-        cause: error,
-      });
-    }
-
-    if (lowerMessage.includes("timeout") || lowerMessage.includes("timed out")) {
-      return new LLMProviderError({
-        message,
-        code: "TIMEOUT",
-        provider,
-        cause: error,
-      });
-    }
-
-    if (
-      lowerMessage.includes("unauthorized") ||
-      lowerMessage.includes("authentication") ||
-      lowerMessage.includes("api key") ||
-      lowerMessage.includes("401") ||
-      lowerMessage.includes("403")
-    ) {
-      return new LLMProviderError({
-        message,
-        code: "AUTH",
-        provider,
-        cause: error,
-      });
-    }
-
-    if (
-      lowerMessage.includes("network") ||
-      lowerMessage.includes("econnrefused") ||
-      lowerMessage.includes("enotfound") ||
-      lowerMessage.includes("fetch failed")
-    ) {
-      return new LLMProviderError({
-        message,
-        code: "NETWORK",
-        provider,
-        cause: error,
-      });
-    }
-
-    if (lowerMessage.includes("500") || lowerMessage.includes("internal server")) {
-      return new LLMProviderError({
-        message,
-        code: "SERVER_ERROR",
-        provider,
-        statusCode: 500,
-        cause: error,
-      });
-    }
-
-    // Default to unknown
+    const detected = detectErrorCode(error.message.toLowerCase());
     return new LLMProviderError({
       message,
-      code: "UNKNOWN",
+      code: detected.code,
       provider,
+      statusCode: detected.statusCode,
       cause: error,
     });
   }
 
-  // Non-Error objects
-  const message = context
-    ? `${context}: ${String(error)}`
-    : String(error);
-
   return new LLMProviderError({
-    message,
+    message: context ? `${context}: ${String(error)}` : String(error),
     code: "UNKNOWN",
     provider,
   });

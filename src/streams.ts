@@ -32,6 +32,52 @@ export interface CloudflareStreamChunk {
  * }
  * ```
  */
+/**
+ * Process SSE lines and emit CloudflareStreamChunk events
+ * Returns true if [DONE] was encountered
+ */
+function processSSELines(lines: string[], controller: ReadableStreamDefaultController<CloudflareStreamChunk>): boolean {
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (!trimmed || !trimmed.startsWith("data: ")) continue;
+
+    const data = trimmed.slice(6);
+    if (data === "[DONE]") {
+      controller.enqueue({ response: "", finished: true });
+      return true;
+    }
+
+    try {
+      const parsed = JSON.parse(data);
+      if (parsed.response) {
+        controller.enqueue({ response: parsed.response });
+      }
+    } catch { /* skip malformed JSON */ }
+  }
+  return false;
+}
+
+async function readSSEStream(body: ReadableStream<Uint8Array>, controller: ReadableStreamDefaultController<CloudflareStreamChunk>): Promise<void> {
+  const reader = body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = "";
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+
+    buffer += decoder.decode(value, { stream: true });
+    const lines = buffer.split("\n");
+    buffer = lines.pop() ?? "";
+
+    if (processSSELines(lines, controller)) {
+      controller.close();
+      return;
+    }
+  }
+  controller.close();
+}
+
 export function createCloudflareStream(
   model: string,
   messages: Array<{ role: string; content: string }>,
@@ -50,61 +96,15 @@ export function createCloudflareStream(
           `https://api.cloudflare.com/client/v4/accounts/${cloudflareAccountId}/ai/run/${model}`,
           {
             method: "POST",
-            headers: {
-              "X-Auth-Email": cloudflareEmail,
-              "X-Auth-Key": cloudflareApiKey,
-              "Content-Type": "application/json",
-            },
+            headers: { "X-Auth-Email": cloudflareEmail, "X-Auth-Key": cloudflareApiKey, "Content-Type": "application/json" },
             body: JSON.stringify({ messages, stream: true }),
           }
         );
 
-        if (!response.ok) {
-          const text = await response.text();
-          throw new Error(`Cloudflare API error: ${response.status} ${text}`);
-        }
+        if (!response.ok) throw new Error(`Cloudflare API error: ${response.status} ${await response.text()}`);
+        if (!response.body) throw new Error("No response body for streaming");
 
-        if (!response.body) {
-          throw new Error("No response body for streaming");
-        }
-
-        const reader = response.body.getReader();
-        const decoder = new TextDecoder();
-        let buffer = "";
-
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-
-          buffer += decoder.decode(value, { stream: true });
-
-          // Process SSE lines
-          const lines = buffer.split("\n");
-          buffer = lines.pop() ?? ""; // Keep incomplete line in buffer
-
-          for (const line of lines) {
-            const trimmed = line.trim();
-            if (!trimmed || !trimmed.startsWith("data: ")) continue;
-
-            const data = trimmed.slice(6); // Remove "data: " prefix
-            if (data === "[DONE]") {
-              controller.enqueue({ response: "", finished: true });
-              controller.close();
-              return;
-            }
-
-            try {
-              const parsed = JSON.parse(data);
-              if (parsed.response) {
-                controller.enqueue({ response: parsed.response });
-              }
-            } catch {
-              // Skip malformed JSON
-            }
-          }
-        }
-
-        controller.close();
+        await readSSEStream(response.body, controller);
       } catch (error) {
         controller.error(error);
       }

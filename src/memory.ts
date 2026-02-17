@@ -246,10 +246,10 @@ export function getMemoryEstimate(): {
 
   // In browser/edge environments (limited info)
   if (typeof performance !== "undefined" && "memory" in performance) {
-    const memory = (performance as any).memory;
+    const memory = (performance as unknown as { memory?: { usedJSHeapSize: number; totalJSHeapSize: number } }).memory;
     return {
-      heapUsed: memory.usedJSHeapSize,
-      heapTotal: memory.totalJSHeapSize,
+      heapUsed: memory?.usedJSHeapSize,
+      heapTotal: memory?.totalJSHeapSize,
     };
   }
 
@@ -266,10 +266,7 @@ export function createCredentialsCache(maxSize = 10, ttl = 10 * 60 * 1000): Edge
   // Periodically cleanup expired entries
   if (typeof setInterval !== "undefined") {
     setInterval(() => {
-      const removed = cache.cleanup();
-      if (removed > 0) {
-        console.debug(`Cleaned up ${removed} expired credential entries`);
-      }
+      cache.cleanup();
     }, ttl / 2);
   }
 

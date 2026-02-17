@@ -5,17 +5,6 @@
  * Optimized for Cloudflare Workers, Vercel Edge Functions, and edge computing
  *
  * Core concept: ModelSpec = "provider:model" (e.g., "groq:llama-3.1-8b-instant")
- *
- * @example
- * ```typescript
- * import { generate } from '@aid-on/unillm';
- *
- * const result = await generate("groq:llama-3.1-8b-instant", messages, {
- *   groqApiKey: process.env.GROQ_API_KEY,
- * });
- * 
- * console.log(result.text);
- * ```
  */
 
 // Types
@@ -132,11 +121,15 @@ export type {
 export {
   unillm,
   quick,
+  UnillmBuilder,
+  UnillmStructuredBuilder,
+} from "./fluent.js";
+
+// Provider shortcuts (from fluent-providers)
+export {
   anthropic,
   openai,
   groq,
   gemini,
   cloudflare,
-  UnillmBuilder,
-  UnillmStructuredBuilder,
-} from "./fluent.js";
+} from "./fluent-providers.js";
