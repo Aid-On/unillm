@@ -203,3 +203,6 @@ export function unillm(initialState?: Partial<FluentState>): UnillmBuilder {
 export function quick(model: ModelSpec | string, credentials: Credentials): UnillmBuilder {
   return new UnillmBuilder({ model, credentials });
 }
+
+// Re-export provider shortcuts
+export { groq, gemini, cloudflare, anthropic, openai } from "./fluent-providers.js";
