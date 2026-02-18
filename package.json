@@ -1,6 +1,6 @@
 {
   "name": "@aid-on/unillm",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "Edge-native unified LLM provider - pure fetch API, minimal dependencies (zod), WebStreams, memory optimization for Cloudflare Workers and edge computing environments",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -43,7 +43,7 @@
     "check:all": "npx tsx scripts/check.ts --list"
   },
   "dependencies": {
-    "@aid-on/nagare": "^0.2.3",
+    "@aid-on/nagare": "^0.2.4",
     "zod": "^3.24.1"
   },
   "devDependencies": {
