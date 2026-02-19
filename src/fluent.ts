@@ -116,21 +116,23 @@ export class UnillmBuilder {
 
   async generate(prompt?: string): Promise<GenerateResult> {
     this.validateRequired(prompt);
+    const { model, credentials } = this.getRequiredState();
     const messages = this.prepareMessages(prompt);
     const options: GenerateOptions = {
       temperature: this.state.temperature,
       maxTokens: this.state.maxTokens,
     };
-    const generateFn = () => generate(this.state.model!, messages, this.state.credentials!, options);
+    const generateFn = () => generate(model, messages, credentials, options);
     return this.state.retryConfig ? withRetry(generateFn, this.state.retryConfig) : generateFn();
   }
 
   async stream(prompt?: string): Promise<Stream<string>> {
     this.validateRequired(prompt);
+    const { model: modelSpec, credentials } = this.getRequiredState();
     const messages = this.prepareMessages(prompt);
-    const { provider, model } = parseModelSpec(this.state.model!);
+    const { provider, model } = parseModelSpec(modelSpec);
     const readableStream = await createProviderStream({
-      provider, model, messages, credentials: this.state.credentials!,
+      provider, model, messages, credentials,
       options: { temperature: this.state.temperature, maxTokens: this.state.maxTokens },
     });
     return nagareStream.from(readableStream);
@@ -139,6 +141,12 @@ export class UnillmBuilder {
   // ===========================================================================
   // Private Helpers
   // ===========================================================================
+
+  private getRequiredState(): { model: string; credentials: Credentials } {
+    if (!this.state.model) throw new Error("Model is required");
+    if (!this.state.credentials) throw new Error("Credentials are required");
+    return { model: this.state.model as string, credentials: this.state.credentials };
+  }
 
   private prepareMessages(prompt?: string): Array<{ role: string; content: string }> {
     let messages = this.state.messages || [];

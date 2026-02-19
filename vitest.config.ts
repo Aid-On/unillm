@@ -11,7 +11,7 @@ export default defineConfig({
       include: ["src/**/*.ts"],
       exclude: ["src/types.ts"],
     },
-    onConsoleLog(log, type) {
+    onConsoleLog(log, _type) {
       // Suppress promise rejection warnings during tests
       if (log.includes('PromiseRejectionHandledWarning')) {
         return false;

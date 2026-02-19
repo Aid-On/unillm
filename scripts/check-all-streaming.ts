@@ -1,14 +1,9 @@
 #!/usr/bin/env npx tsx
-/**
- * Comprehensive Streaming Test for All Models
- * 
- * Tests streaming capability for every model in unilmp library.
- * Each model is tested individually with proper error handling.
- */
+/** Comprehensive Streaming Test for All Models */
 
 import { MODELS, getModelsByProvider } from "../src/models.js";
 import { getCredentialsFromEnv, parseModelSpec } from "../src/factory.js";
-import { unilmp } from "../src/fluent.js";
+import { unillm } from "../src/fluent.js";
 import { callCloudflareRestStream } from "../src/factory.js";
 import { getStreamHandler } from "../src/streaming-handlers.js";
 import type { ModelInfo, Credentials } from "../src/types.js";
@@ -53,9 +48,104 @@ interface StreamTestResult {
   error?: string;
 }
 
+interface StreamAccumulator {
+  fullText: string;
+  chunkCount: number;
+  hasStreaming: boolean;
+}
+
+// =============================================================================
+// Helper Functions
+// =============================================================================
+
+function buildTestMessages(): Array<{ role: string; content: string }> {
+  return [
+    { role: "system", content: TEST_SYSTEM },
+    { role: "user", content: TEST_PROMPT },
+  ];
+}
+
+function onFirstChunk(acc: StreamAccumulator): void {
+  if (acc.chunkCount === 1) {
+    acc.hasStreaming = true;
+    process.stdout.write(`  ${colors.green}> Streaming works${colors.reset} - `);
+  }
+  process.stdout.write(colors.dim + "." + colors.reset);
+}
+
+function getProviderApiKey(provider: string, credentials: Credentials): string | undefined {
+  if (provider === 'groq') return credentials.groqApiKey;
+  if (provider === 'gemini') return credentials.geminiApiKey;
+  return undefined;
+}
+
+// =============================================================================
+// Provider-specific streaming
+// =============================================================================
+
+async function streamCloudflare(model: string, credentials: Credentials, acc: StreamAccumulator): Promise<void> {
+  for await (const chunk of callCloudflareRestStream(model, buildTestMessages(), credentials)) {
+    acc.fullText += chunk;
+    acc.chunkCount++;
+    onFirstChunk(acc);
+  }
+}
+
+async function streamWithHandler(handler: { createStream: (messages: Array<{ role: string; content: string }>, apiKey: string | undefined) => Promise<ReadableStream<string>> }, provider: string, credentials: Credentials, acc: StreamAccumulator): Promise<void> {
+  const apiKey = getProviderApiKey(provider, credentials);
+  const readableStream = await handler.createStream(buildTestMessages(), apiKey);
+  const reader = readableStream.getReader();
+
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      acc.fullText += value;
+      acc.chunkCount++;
+      onFirstChunk(acc);
+    }
+  } finally {
+    reader.releaseLock();
+  }
+}
+
+async function streamWithFluentApi(spec: string, credentials: Credentials, acc: StreamAccumulator): Promise<void> {
+  const stream = await unillm()
+    .model(spec)
+    .credentials(credentials)
+    .system(TEST_SYSTEM)
+    .user(TEST_PROMPT)
+    .stream();
+
+  for await (const chunk of stream) {
+    acc.fullText += chunk;
+    acc.chunkCount++;
+    onFirstChunk(acc);
+  }
+}
+
 // =============================================================================
 // Streaming Test Function
 // =============================================================================
+
+async function runStreamTest(modelInfo: ModelInfo, credentials: Credentials): Promise<StreamAccumulator> {
+  const { provider, model } = parseModelSpec(modelInfo.spec);
+  const acc: StreamAccumulator = { fullText: "", chunkCount: 0, hasStreaming: false };
+
+  if (provider === "cloudflare") {
+    await streamCloudflare(model, credentials, acc);
+    return acc;
+  }
+
+  const handler = getStreamHandler(model);
+  if (handler && typeof handler === 'object' && 'createStream' in handler) {
+    await streamWithHandler(handler as { createStream: (messages: Array<{ role: string; content: string }>, apiKey: string | undefined) => Promise<ReadableStream<string>> }, provider, credentials, acc);
+    return acc;
+  }
+
+  await streamWithFluentApi(modelInfo.spec, credentials, acc);
+  return acc;
+}
 
 async function testModelStreaming(
   modelInfo: ModelInfo,
@@ -63,215 +153,82 @@ async function testModelStreaming(
 ): Promise<StreamTestResult> {
   const startTime = Date.now();
   const { provider, model } = parseModelSpec(modelInfo.spec);
-  
+
   console.log(`\n${colors.cyan}Testing: ${modelInfo.spec}${colors.reset}`);
   console.log(`${colors.dim}  ${modelInfo.name}${colors.reset}`);
 
   try {
-    let fullText = "";
-    let chunkCount = 0;
-    let hasStreaming = false;
-
-    // Create promise with timeout
-    const streamPromise = (async () => {
-      // Handle Cloudflare models
-      if (provider === "cloudflare") {
-        const messages = [
-          { role: "system", content: TEST_SYSTEM },
-          { role: "user", content: TEST_PROMPT },
-        ];
-
-        try {
-          for await (const chunk of callCloudflareRestStream(model, messages, credentials)) {
-            fullText += chunk;
-            chunkCount++;
-            if (chunkCount === 1) {
-              hasStreaming = true;
-              process.stdout.write(`  ${colors.green}✓ Streaming works${colors.reset} - `);
-            }
-            process.stdout.write(colors.dim + "." + colors.reset);
-          }
-        } catch (streamError: any) {
-          // Fallback to non-streaming if streaming fails
-          console.log(`  ${colors.yellow}⚠ Streaming failed, testing non-streaming...${colors.reset}`);
-          throw streamError;
-        }
-      } else {
-        // Handle other providers
-        const handler = getStreamHandler(model);
-        
-        if (handler && typeof handler === 'object' && 'createStream' in handler) {
-          // Custom handler for models like gpt-oss
-          const messages = [
-            { role: "system", content: TEST_SYSTEM },
-            { role: "user", content: TEST_PROMPT }
-          ];
-          const apiKey = provider === 'groq' ? credentials.groqApiKey : 
-                         provider === 'gemini' ? credentials.geminiApiKey : undefined;
-          
-          const readableStream = await handler.createStream(messages, apiKey);
-          const reader = readableStream.getReader();
-          
-          try {
-            while (true) {
-              const { done, value } = await reader.read();
-              if (done) break;
-              
-              fullText += value;
-              chunkCount++;
-              if (chunkCount === 1) {
-                hasStreaming = true;
-                process.stdout.write(`  ${colors.green}✓ Streaming works${colors.reset} - `);
-              }
-              process.stdout.write(colors.dim + "." + colors.reset);
-            }
-          } finally {
-            reader.releaseLock();
-          }
-        } else {
-          // Use fluent API
-          const stream = await unilmp()
-            .model(modelInfo.spec)
-            .credentials(credentials)
-            .system(TEST_SYSTEM)
-            .user(TEST_PROMPT)
-            .stream();
-          
-          for await (const chunk of stream) {
-            fullText += chunk;
-            chunkCount++;
-            if (chunkCount === 1) {
-              hasStreaming = true;
-              process.stdout.write(`  ${colors.green}✓ Streaming works${colors.reset} - `);
-            }
-            process.stdout.write(colors.dim + "." + colors.reset);
-          }
-        }
-      }
-    })();
-
-    // Apply timeout
-    await Promise.race([
-      streamPromise,
-      new Promise((_, reject) => 
-        setTimeout(() => reject(new Error("Timeout")), TIMEOUT_MS)
-      ),
-    ]);
+    const streamPromise = runStreamTest(modelInfo, credentials);
+    const timeoutPromise = new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error("Timeout")), TIMEOUT_MS)
+    );
+    const acc = await Promise.race([streamPromise, timeoutPromise]);
 
     process.stdout.write("\n");
-    const responseTime = Date.now() - startTime;
 
     return {
-      spec: modelInfo.spec,
-      provider,
-      model,
-      name: modelInfo.name,
-      success: true,
-      streaming: hasStreaming,
-      chunks: chunkCount,
-      responseTime,
-      response: fullText.substring(0, 100), // First 100 chars
+      spec: modelInfo.spec, provider, model, name: modelInfo.name,
+      success: true, streaming: acc.hasStreaming,
+      chunks: acc.chunkCount, responseTime: Date.now() - startTime,
+      response: acc.fullText.substring(0, 100),
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     process.stdout.write("\n");
-    const responseTime = Date.now() - startTime;
-    
-    console.log(`  ${colors.red}✗ Error: ${error.message}${colors.reset}`);
-    
+    const message = error instanceof Error ? error.message : String(error);
+    console.log(`  ${colors.red}x Error: ${message}${colors.reset}`);
+
     return {
-      spec: modelInfo.spec,
-      provider,
-      model,
-      name: modelInfo.name,
-      success: false,
-      streaming: false,
-      chunks: 0,
-      responseTime,
-      error: error.message,
+      spec: modelInfo.spec, provider, model, name: modelInfo.name,
+      success: false, streaming: false,
+      chunks: 0, responseTime: Date.now() - startTime,
+      error: message,
     };
   }
 }
 
 // =============================================================================
-// Main Test Runner
+// Credential Check
 // =============================================================================
 
-async function main() {
-  console.log(`${colors.bold}=== Comprehensive Streaming Test for All Models ===${colors.reset}`);
-  console.log(`Total models to test: ${MODELS.length}\n`);
+function hasProviderCredentials(provider: string, credentials: Credentials): boolean {
+  if (provider === "groq") return !!credentials.groqApiKey;
+  if (provider === "gemini") return !!credentials.geminiApiKey;
+  if (provider === "cloudflare") return !!(credentials.cloudflareAccountId && credentials.cloudflareApiKey);
+  return false;
+}
 
-  const credentials = getCredentialsFromEnv();
-  const results: StreamTestResult[] = [];
+function makeSkippedResult(model: ModelInfo, provider: string): StreamTestResult {
+  return {
+    spec: model.spec, provider, model: model.model, name: model.name,
+    success: false, streaming: false, chunks: 0, responseTime: 0,
+    error: "No credentials",
+  };
+}
 
-  // Test by provider
-  const providers = ["groq", "gemini", "cloudflare"] as const;
-  
-  for (const provider of providers) {
-    const models = getModelsByProvider(provider);
-    
-    console.log(`\n${colors.bold}${colors.blue}━━━ ${provider.toUpperCase()} Models (${models.length}) ━━━${colors.reset}`);
-    
-    // Check if credentials exist
-    const hasCredentials = 
-      (provider === "groq" && credentials.groqApiKey) ||
-      (provider === "gemini" && credentials.geminiApiKey) ||
-      (provider === "cloudflare" && credentials.cloudflareAccountId && credentials.cloudflareApiKey);
-    
-    if (!hasCredentials) {
-      console.log(`${colors.yellow}⚠️  No credentials for ${provider}, skipping...${colors.reset}`);
-      for (const model of models) {
-        results.push({
-          spec: model.spec,
-          provider,
-          model: model.model,
-          name: model.name,
-          success: false,
-          streaming: false,
-          chunks: 0,
-          responseTime: 0,
-          error: "No credentials",
-        });
-      }
-      continue;
-    }
-    
-    // Test each model
-    for (const model of models) {
-      const result = await testModelStreaming(model, credentials);
-      results.push(result);
-      
-      // Small delay between models to avoid rate limiting
-      await new Promise(resolve => setTimeout(resolve, 1000));
-    }
+// =============================================================================
+// Summary Report
+// =============================================================================
+
+function printProviderSummary(provider: string, results: StreamTestResult[]): void {
+  const providerResults = results.filter(r => r.provider === provider);
+  const successful = providerResults.filter(r => r.success && r.streaming);
+  const failed = providerResults.filter(r => !r.success);
+  const noStream = providerResults.filter(r => r.success && !r.streaming);
+
+  console.log(`${colors.bold}${provider.toUpperCase()}:${colors.reset}`);
+  console.log(`  ${colors.green}> Streaming works: ${successful.length}/${providerResults.length}${colors.reset}`);
+  if (noStream.length > 0) {
+    console.log(`  ${colors.yellow}! No streaming: ${noStream.length}${colors.reset}`);
+    noStream.forEach(r => console.log(`    - ${r.spec}`));
   }
-
-  // =============================================================================
-  // Summary Report
-  // =============================================================================
-
-  console.log(`\n\n${colors.bold}=== SUMMARY REPORT ===${colors.reset}\n`);
-
-  // Group results by provider
-  for (const provider of providers) {
-    const providerResults = results.filter(r => r.provider === provider);
-    const successful = providerResults.filter(r => r.success && r.streaming);
-    const failed = providerResults.filter(r => !r.success);
-    const noStream = providerResults.filter(r => r.success && !r.streaming);
-    
-    console.log(`${colors.bold}${provider.toUpperCase()}:${colors.reset}`);
-    console.log(`  ${colors.green}✓ Streaming works: ${successful.length}/${providerResults.length}${colors.reset}`);
-    if (noStream.length > 0) {
-      console.log(`  ${colors.yellow}⚠ No streaming: ${noStream.length}${colors.reset}`);
-      noStream.forEach(r => console.log(`    - ${r.spec}`));
-    }
-    if (failed.length > 0) {
-      console.log(`  ${colors.red}✗ Failed: ${failed.length}${colors.reset}`);
-      failed.forEach(r => console.log(`    - ${r.spec}: ${r.error}`));
-    }
-    console.log();
+  if (failed.length > 0) {
+    console.log(`  ${colors.red}x Failed: ${failed.length}${colors.reset}`);
+    failed.forEach(r => console.log(`    - ${r.spec}: ${r.error}`));
   }
+  console.log();
+}
 
-  // Overall statistics
+function printOverallSummary(results: StreamTestResult[]): void {
   const total = results.length;
   const successfulStreaming = results.filter(r => r.success && r.streaming).length;
   const successfulNoStreaming = results.filter(r => r.success && !r.streaming).length;
@@ -282,21 +239,58 @@ async function main() {
   console.log(`  ${colors.green}Streaming supported: ${successfulStreaming}${colors.reset}`);
   console.log(`  ${colors.yellow}No streaming: ${successfulNoStreaming}${colors.reset}`);
   console.log(`  ${colors.red}Failed: ${failed}${colors.reset}`);
+}
 
-  // Save detailed results to file
+// =============================================================================
+// Main Test Runner
+// =============================================================================
+
+async function main() {
+  console.log(`${colors.bold}=== Comprehensive Streaming Test ===${colors.reset}`);
+  console.log(`Total models to test: ${MODELS.length}\n`);
+
+  const credentials = getCredentialsFromEnv();
+  const results: StreamTestResult[] = [];
+  const providers = ["groq", "gemini", "cloudflare"] as const;
+
+  for (const provider of providers) {
+    const models = getModelsByProvider(provider);
+    console.log(`\n${colors.bold}${colors.blue}--- ${provider.toUpperCase()} Models (${models.length}) ---${colors.reset}`);
+
+    if (!hasProviderCredentials(provider, credentials)) {
+      console.log(`${colors.yellow}! No credentials for ${provider}, skipping...${colors.reset}`);
+      for (const model of models) {
+        results.push(makeSkippedResult(model, provider));
+      }
+      continue;
+    }
+
+    for (const model of models) {
+      const result = await testModelStreaming(model, credentials);
+      results.push(result);
+      await new Promise(resolve => setTimeout(resolve, 1000));
+    }
+  }
+
+  // Summary
+  console.log(`\n\n${colors.bold}=== SUMMARY REPORT ===${colors.reset}\n`);
+  for (const provider of providers) {
+    printProviderSummary(provider, results);
+  }
+  printOverallSummary(results);
+
+  // Save results
   const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-  const reportPath = `/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unilmp/streaming-test-results-${timestamp}.json`;
-  
+  const reportPath = `./streaming-test-results-${timestamp}.json`;
   const fs = await import("fs/promises");
   await fs.writeFile(reportPath, JSON.stringify(results, null, 2));
   console.log(`\n${colors.dim}Detailed results saved to: ${reportPath}${colors.reset}`);
 
-  // Exit with error if any failed
+  const failed = results.filter(r => !r.success).length;
   process.exit(failed > 0 ? 1 : 0);
 }
 
-// Run the test
 main().catch((error) => {
-  console.error(`${colors.red}Fatal error: ${error.message}${colors.reset}`);
+  console.error(`${colors.red}Fatal error: ${error instanceof Error ? error.message : String(error)}${colors.reset}`);
   process.exit(1);
 });

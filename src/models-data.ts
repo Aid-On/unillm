@@ -5,7 +5,7 @@
  * Verified working as of 2025-12-17, updated 2025-01-15.
  */
 
-import type { ModelSpec, ModelInfo } from "./types.js";
+import type { ModelInfo } from "./types.js";
 
 /**
  * All available models with metadata

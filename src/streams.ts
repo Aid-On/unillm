@@ -129,6 +129,10 @@ export function createCloudflareStream(
  * }
  * ```
  */
+function isStreamEnd(done: boolean, value: CloudflareStreamChunk | undefined): boolean {
+  return done || (value?.finished === true);
+}
+
 export function cloudflareStreamToText(
   stream: ReadableStream<CloudflareStreamChunk>
 ): ReadableStream<string> {
@@ -140,17 +144,11 @@ export function cloudflareStreamToText(
         try {
           while (true) {
             const { done, value } = await reader.read();
-            if (done) {
+            if (isStreamEnd(done, value)) {
               controller.close();
               break;
             }
-
-            if (value.finished) {
-              controller.close();
-              break;
-            }
-
-            if (value.response) {
+            if (value?.response) {
               controller.enqueue(value.response);
             }
           }

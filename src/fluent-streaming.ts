@@ -22,8 +22,7 @@ interface ProviderStreamConfig {
 }
 
 export async function createProviderStream(config: ProviderStreamConfig): Promise<ReadableStream<string>> {
-  const { provider, model, messages, credentials, options } = config;
-  return routeToProvider(provider, model, messages, credentials, options);
+  return routeToProvider(config);
 }
 
 function getApiKeyOrThrow(credentials: Credentials, provider: string): string {
@@ -38,7 +37,8 @@ function getApiKeyOrThrow(credentials: Credentials, provider: string): string {
   return key;
 }
 
-async function routeToProvider(provider: string, model: string, messages: Array<{ role: string; content: string }>, credentials: Credentials, options?: { temperature?: number; maxTokens?: number }): Promise<ReadableStream<string>> {
+async function routeToProvider(config: ProviderStreamConfig): Promise<ReadableStream<string>> {
+  const { provider, model, messages, credentials, options } = config;
   if (provider === "cloudflare") {
     return createCloudflareReadableStream(model, messages, credentials);
   }
@@ -47,7 +47,7 @@ async function routeToProvider(provider: string, model: string, messages: Array<
     const handler = getStreamHandler(model);
     if (handler) return handler.createStream(messages, apiKey, options);
   }
-  const streamFn = STREAM_CREATORS[provider];
+  const streamFn = getStreamCreator(provider);
   if (!streamFn) throw new Error(`Streaming not supported for provider: ${provider}`);
   return streamFn(model, messages, apiKey, options);
 }
@@ -69,12 +69,15 @@ function createCloudflareReadableStream(model: string, messages: Array<{ role: s
 
 type StreamCreator = (model: string, messages: Array<{ role: string; content: string }>, apiKey: string, options?: { temperature?: number; maxTokens?: number }) => Promise<ReadableStream<string>>;
 
-const STREAM_CREATORS: Record<string, StreamCreator> = {
-  anthropic: createAnthropicStream,
-  openai: createOpenAIStream,
-  groq: createGroqStream,
-  gemini: createGeminiStream,
-};
+function getStreamCreator(provider: string): StreamCreator | undefined {
+  const creators: Record<string, StreamCreator> = {
+    anthropic: createAnthropicStream,
+    openai: createOpenAIStream,
+    groq: createGroqStream,
+    gemini: createGeminiStream,
+  };
+  return creators[provider];
+}
 
 // =============================================================================
 // Shared SSE Parsing

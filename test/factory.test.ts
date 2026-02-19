@@ -3,12 +3,9 @@ import {
   parseModelSpec,
   createModelSpec,
   generate,
-  generateWithGroq,
-  generateWithGemini,
   hasCredentials,
   getCredentialsFromEnv,
 } from "../src/factory.js";
-import type { Credentials } from "../src/types.js";
 
 describe("parseModelSpec", () => {
   it("should parse valid model spec", () => {

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { unillm, quick, groq, gemini, cloudflare, UnilmpBuilder } from "../src/fluent.js";
+import { unillm, quick, groq, gemini, cloudflare } from "../src/fluent.js";
 import { z } from "zod";
 
 // Mock the generate function

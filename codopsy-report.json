@@ -1,0 +1,3839 @@
+{
+  "timestamp": "2026-02-19T21:22:56.583Z",
+  "targetDir": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm",
+  "files": [
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/scripts/check-all-streaming.ts",
+      "complexity": {
+        "cyclomatic": 7,
+        "cognitive": 10,
+        "functions": [
+          {
+            "name": "buildTestMessages",
+            "line": 61,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "onFirstChunk",
+            "line": 68,
+            "complexity": 2,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "getProviderApiKey",
+            "line": 76,
+            "complexity": 3,
+            "cognitiveComplexity": 2
+          },
+          {
+            "name": "streamCloudflare",
+            "line": 86,
+            "complexity": 2,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "streamWithHandler",
+            "line": 94,
+            "complexity": 3,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "streamWithFluentApi",
+            "line": 112,
+            "complexity": 2,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "runStreamTest",
+            "line": 131,
+            "complexity": 5,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "testModelStreaming",
+            "line": 150,
+            "complexity": 3,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "(anonymous)",
+            "line": 162,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 163,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "hasProviderCredentials",
+            "line": 193,
+            "complexity": 5,
+            "cognitiveComplexity": 4
+          },
+          {
+            "name": "makeSkippedResult",
+            "line": 200,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "printProviderSummary",
+            "line": 212,
+            "complexity": 3,
+            "cognitiveComplexity": 2
+          },
+          {
+            "name": "(anonymous)",
+            "line": 213,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 214,
+            "complexity": 2,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "(anonymous)",
+            "line": 215,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 216,
+            "complexity": 2,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "(anonymous)",
+            "line": 222,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 226,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "printOverallSummary",
+            "line": 231,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 233,
+            "complexity": 2,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "(anonymous)",
+            "line": 234,
+            "complexity": 2,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "(anonymous)",
+            "line": 235,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "main",
+            "line": 248,
+            "complexity": 7,
+            "cognitiveComplexity": 10
+          },
+          {
+            "name": "(anonymous)",
+            "line": 271,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 289,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 293,
+            "complexity": 2,
+            "cognitiveComplexity": 1
+          }
+        ]
+      },
+      "issues": [
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/scripts/check-all-streaming.ts",
+          "line": 157,
+          "column": 3,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/scripts/check-all-streaming.ts",
+          "line": 158,
+          "column": 3,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/scripts/check-all-streaming.ts",
+          "line": 178,
+          "column": 5,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/scripts/check-all-streaming.ts",
+          "line": 218,
+          "column": 3,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/scripts/check-all-streaming.ts",
+          "line": 219,
+          "column": 3,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/scripts/check-all-streaming.ts",
+          "line": 221,
+          "column": 5,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/scripts/check-all-streaming.ts",
+          "line": 222,
+          "column": 27,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/scripts/check-all-streaming.ts",
+          "line": 225,
+          "column": 5,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/scripts/check-all-streaming.ts",
+          "line": 226,
+          "column": 25,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/scripts/check-all-streaming.ts",
+          "line": 228,
+          "column": 3,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/scripts/check-all-streaming.ts",
+          "line": 237,
+          "column": 3,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/scripts/check-all-streaming.ts",
+          "line": 238,
+          "column": 3,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/scripts/check-all-streaming.ts",
+          "line": 239,
+          "column": 3,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/scripts/check-all-streaming.ts",
+          "line": 240,
+          "column": 3,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/scripts/check-all-streaming.ts",
+          "line": 241,
+          "column": 3,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/scripts/check-all-streaming.ts",
+          "line": 249,
+          "column": 3,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/scripts/check-all-streaming.ts",
+          "line": 250,
+          "column": 3,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/scripts/check-all-streaming.ts",
+          "line": 258,
+          "column": 5,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/scripts/check-all-streaming.ts",
+          "line": 261,
+          "column": 7,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/scripts/check-all-streaming.ts",
+          "line": 276,
+          "column": 3,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/scripts/check-all-streaming.ts",
+          "line": 287,
+          "column": 3,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/scripts/check-all-streaming.ts",
+          "line": 294,
+          "column": 3,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.error statement"
+        }
+      ],
+      "score": {
+        "score": 95,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/scripts/check.ts",
+      "complexity": {
+        "cyclomatic": 10,
+        "cognitive": 13,
+        "functions": [
+          {
+            "name": "parseArgs",
+            "line": 28,
+            "complexity": 8,
+            "cognitiveComplexity": 11
+          },
+          {
+            "name": "printHelp",
+            "line": 43,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "printModelList",
+            "line": 47,
+            "complexity": 6,
+            "cognitiveComplexity": 9
+          },
+          {
+            "name": "printHeader",
+            "line": 67,
+            "complexity": 2,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "printResult",
+            "line": 75,
+            "complexity": 3,
+            "cognitiveComplexity": 4
+          },
+          {
+            "name": "extractCloudflareResponse",
+            "line": 91,
+            "complexity": 4,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "(anonymous)",
+            "line": 95,
+            "complexity": 2,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "buildTestMessages",
+            "line": 101,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "getProviderApiKey",
+            "line": 105,
+            "complexity": 3,
+            "cognitiveComplexity": 2
+          },
+          {
+            "name": "makeErrorResult",
+            "line": 113,
+            "complexity": 2,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "testBasic",
+            "line": 124,
+            "complexity": 6,
+            "cognitiveComplexity": 7
+          },
+          {
+            "name": "collectStream",
+            "line": 144,
+            "complexity": 7,
+            "cognitiveComplexity": 8
+          },
+          {
+            "name": "testStream",
+            "line": 160,
+            "complexity": 4,
+            "cognitiveComplexity": 5
+          },
+          {
+            "name": "main",
+            "line": 183,
+            "complexity": 10,
+            "cognitiveComplexity": 13
+          },
+          {
+            "name": "(anonymous)",
+            "line": 199,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 202,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          }
+        ]
+      },
+      "issues": [
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/scripts/check.ts",
+          "line": 44,
+          "column": 3,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/scripts/check.ts",
+          "line": 48,
+          "column": 3,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/scripts/check.ts",
+          "line": 55,
+          "column": 5,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/scripts/check.ts",
+          "line": 59,
+          "column": 7,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/scripts/check.ts",
+          "line": 61,
+          "column": 5,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/scripts/check.ts",
+          "line": 69,
+          "column": 3,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/scripts/check.ts",
+          "line": 70,
+          "column": 3,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/scripts/check.ts",
+          "line": 71,
+          "column": 13,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/scripts/check.ts",
+          "line": 72,
+          "column": 3,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/scripts/check.ts",
+          "line": 76,
+          "column": 3,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/scripts/check.ts",
+          "line": 77,
+          "column": 3,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/scripts/check.ts",
+          "line": 80,
+          "column": 5,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/scripts/check.ts",
+          "line": 81,
+          "column": 5,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/scripts/check.ts",
+          "line": 83,
+          "column": 5,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/scripts/check.ts",
+          "line": 165,
+          "column": 5,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/scripts/check.ts",
+          "line": 191,
+          "column": 32,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.error statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/scripts/check.ts",
+          "line": 198,
+          "column": 21,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/scripts/check.ts",
+          "line": 202,
+          "column": 27,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.error statement"
+        }
+      ],
+      "score": {
+        "score": 96,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/src/errors.ts",
+      "complexity": {
+        "cyclomatic": 9,
+        "cognitive": 5,
+        "functions": [
+          {
+            "name": "constructor",
+            "line": 32,
+            "complexity": 4,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "toUserMessage",
+            "line": 57,
+            "complexity": 8,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "isRetryableCode",
+            "line": 82,
+            "complexity": 9,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "statusToErrorCode",
+            "line": 100,
+            "complexity": 6,
+            "cognitiveComplexity": 5
+          },
+          {
+            "name": "detectErrorCode",
+            "line": 111,
+            "complexity": 3,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "(anonymous)",
+            "line": 120,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "wrapError",
+            "line": 130,
+            "complexity": 5,
+            "cognitiveComplexity": 5
+          },
+          {
+            "name": "isLLMError",
+            "line": 161,
+            "complexity": 3,
+            "cognitiveComplexity": 2
+          },
+          {
+            "name": "isRetryable",
+            "line": 173,
+            "complexity": 2,
+            "cognitiveComplexity": 1
+          }
+        ]
+      },
+      "issues": [],
+      "score": {
+        "score": 100,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/src/factory-cloudflare.ts",
+      "complexity": {
+        "cyclomatic": 9,
+        "cognitive": 11,
+        "functions": [
+          {
+            "name": "validateCloudflareCredentials",
+            "line": 33,
+            "complexity": 4,
+            "cognitiveComplexity": 2
+          },
+          {
+            "name": "buildRequestBody",
+            "line": 41,
+            "complexity": 9,
+            "cognitiveComplexity": 7
+          },
+          {
+            "name": "(anonymous)",
+            "line": 43,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 44,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "callCloudflareRest",
+            "line": 61,
+            "complexity": 2,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "parseSSELines",
+            "line": 93,
+            "complexity": 8,
+            "cognitiveComplexity": 11
+          },
+          {
+            "name": "callCloudflareRestStream",
+            "line": 111,
+            "complexity": 6,
+            "cognitiveComplexity": 6
+          },
+          {
+            "name": "extractGptOssResponse",
+            "line": 155,
+            "complexity": 4,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "(anonymous)",
+            "line": 158,
+            "complexity": 2,
+            "cognitiveComplexity": 1
+          }
+        ]
+      },
+      "issues": [],
+      "score": {
+        "score": 100,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/src/factory-providers.ts",
+      "complexity": {
+        "cyclomatic": 8,
+        "cognitive": 7,
+        "functions": [
+          {
+            "name": "generateWithAnthropic",
+            "line": 36,
+            "complexity": 8,
+            "cognitiveComplexity": 7
+          },
+          {
+            "name": "(anonymous)",
+            "line": 42,
+            "complexity": 2,
+            "cognitiveComplexity": 2
+          },
+          {
+            "name": "(anonymous)",
+            "line": 47,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 50,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "generateWithOpenAI",
+            "line": 86,
+            "complexity": 5,
+            "cognitiveComplexity": 4
+          },
+          {
+            "name": "generateWithGroq",
+            "line": 124,
+            "complexity": 5,
+            "cognitiveComplexity": 4
+          },
+          {
+            "name": "generateWithGemini",
+            "line": 162,
+            "complexity": 6,
+            "cognitiveComplexity": 6
+          },
+          {
+            "name": "(anonymous)",
+            "line": 169,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 170,
+            "complexity": 2,
+            "cognitiveComplexity": 2
+          },
+          {
+            "name": "(anonymous)",
+            "line": 175,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          }
+        ]
+      },
+      "issues": [],
+      "score": {
+        "score": 100,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/src/factory.ts",
+      "complexity": {
+        "cyclomatic": 8,
+        "cognitive": 4,
+        "functions": [
+          {
+            "name": "parseModelSpec",
+            "line": 42,
+            "complexity": 4,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "createModelSpec",
+            "line": 69,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "generateWithCloudflare",
+            "line": 86,
+            "complexity": 6,
+            "cognitiveComplexity": 4
+          },
+          {
+            "name": "generate",
+            "line": 107,
+            "complexity": 4,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "hasCredentials",
+            "line": 135,
+            "complexity": 8,
+            "cognitiveComplexity": 2
+          },
+          {
+            "name": "getCredentialsFromEnv",
+            "line": 153,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          }
+        ]
+      },
+      "issues": [],
+      "score": {
+        "score": 100,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/src/fluent-providers.ts",
+      "complexity": {
+        "cyclomatic": 1,
+        "cognitive": 0,
+        "functions": [
+          {
+            "name": "sonnet",
+            "line": 20,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "stream",
+            "line": 21,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "haiku",
+            "line": 28,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "stream",
+            "line": 29,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "gpt4o",
+            "line": 41,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "stream",
+            "line": 42,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "mini",
+            "line": 49,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "stream",
+            "line": 50,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "turbo",
+            "line": 57,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "stream",
+            "line": 58,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "gpt35",
+            "line": 65,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "stream",
+            "line": 66,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "instant",
+            "line": 78,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "stream",
+            "line": 79,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "versatile",
+            "line": 86,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "stream",
+            "line": 87,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "gpt120b",
+            "line": 94,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "stream",
+            "line": 95,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "gpt20b",
+            "line": 101,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "stream",
+            "line": 102,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "guard",
+            "line": 109,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "compound",
+            "line": 110,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "compoundMini",
+            "line": 111,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "pro3",
+            "line": 119,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "flash3",
+            "line": 120,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "pro25",
+            "line": 123,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "flash25",
+            "line": 124,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "flash",
+            "line": 127,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "lite",
+            "line": 128,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "pro",
+            "line": 131,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "flash15",
+            "line": 132,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "gpt120b",
+            "line": 140,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "gpt20b",
+            "line": 148,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "llama4",
+            "line": 156,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "llama70b",
+            "line": 164,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "llama8b",
+            "line": 172,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "reasoning",
+            "line": 180,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "coder",
+            "line": 188,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "granite",
+            "line": 196,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          }
+        ]
+      },
+      "issues": [],
+      "score": {
+        "score": 100,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/src/fluent-streaming.ts",
+      "complexity": {
+        "cyclomatic": 7,
+        "cognitive": 15,
+        "functions": [
+          {
+            "name": "createProviderStream",
+            "line": 24,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "getApiKeyOrThrow",
+            "line": 28,
+            "complexity": 2,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "routeToProvider",
+            "line": 40,
+            "complexity": 6,
+            "cognitiveComplexity": 6
+          },
+          {
+            "name": "createCloudflareReadableStream",
+            "line": 55,
+            "complexity": 4,
+            "cognitiveComplexity": 2
+          },
+          {
+            "name": "start",
+            "line": 61,
+            "complexity": 3,
+            "cognitiveComplexity": 4
+          },
+          {
+            "name": "getStreamCreator",
+            "line": 72,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "createSSETransform",
+            "line": 88,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "transform",
+            "line": 91,
+            "complexity": 7,
+            "cognitiveComplexity": 15
+          },
+          {
+            "name": "flush",
+            "line": 106,
+            "complexity": 5,
+            "cognitiveComplexity": 13
+          },
+          {
+            "name": "extractOpenAI",
+            "line": 120,
+            "complexity": 2,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "extractGemini",
+            "line": 126,
+            "complexity": 2,
+            "cognitiveComplexity": 4
+          },
+          {
+            "name": "extractAnthropic",
+            "line": 133,
+            "complexity": 3,
+            "cognitiveComplexity": 2
+          },
+          {
+            "name": "extractGroq",
+            "line": 141,
+            "complexity": 3,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "getModelConfig",
+            "line": 158,
+            "complexity": 4,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "fetchAndPipeSSE",
+            "line": 167,
+            "complexity": 3,
+            "cognitiveComplexity": 2
+          },
+          {
+            "name": "createAnthropicStream",
+            "line": 177,
+            "complexity": 3,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "(anonymous)",
+            "line": 178,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 178,
+            "complexity": 2,
+            "cognitiveComplexity": 2
+          },
+          {
+            "name": "(anonymous)",
+            "line": 179,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "createOpenAIStream",
+            "line": 183,
+            "complexity": 2,
+            "cognitiveComplexity": 2
+          },
+          {
+            "name": "createGroqStream",
+            "line": 187,
+            "complexity": 5,
+            "cognitiveComplexity": 4
+          },
+          {
+            "name": "createGeminiStream",
+            "line": 195,
+            "complexity": 4,
+            "cognitiveComplexity": 4
+          },
+          {
+            "name": "(anonymous)",
+            "line": 196,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 196,
+            "complexity": 2,
+            "cognitiveComplexity": 2
+          },
+          {
+            "name": "(anonymous)",
+            "line": 197,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          }
+        ]
+      },
+      "issues": [],
+      "score": {
+        "score": 100,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/src/fluent.ts",
+      "complexity": {
+        "cyclomatic": 6,
+        "cognitive": 4,
+        "functions": [
+          {
+            "name": "constructor",
+            "line": 40,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "model",
+            "line": 44,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "credentials",
+            "line": 48,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "creds",
+            "line": 53,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "temperature",
+            "line": 55,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "temp",
+            "line": 60,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "maxTokens",
+            "line": 62,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "tokens",
+            "line": 67,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "system",
+            "line": 69,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "messages",
+            "line": 73,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "user",
+            "line": 77,
+            "complexity": 2,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "assistant",
+            "line": 82,
+            "complexity": 2,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "schema",
+            "line": 87,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "retry",
+            "line": 91,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "retries",
+            "line": 95,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "optimize",
+            "line": 99,
+            "complexity": 2,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "compress",
+            "line": 106,
+            "complexity": 1,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "(anonymous)",
+            "line": 107,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "generate",
+            "line": 117,
+            "complexity": 2,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "generateFn",
+            "line": 125,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "stream",
+            "line": 129,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "getRequiredState",
+            "line": 145,
+            "complexity": 3,
+            "cognitiveComplexity": 2
+          },
+          {
+            "name": "prepareMessages",
+            "line": 151,
+            "complexity": 4,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "validateRequired",
+            "line": 162,
+            "complexity": 6,
+            "cognitiveComplexity": 4
+          },
+          {
+            "name": "constructor",
+            "line": 178,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "generate",
+            "line": 182,
+            "complexity": 4,
+            "cognitiveComplexity": 2
+          },
+          {
+            "name": "extract",
+            "line": 197,
+            "complexity": 2,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "unillm",
+            "line": 207,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "quick",
+            "line": 211,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          }
+        ]
+      },
+      "issues": [],
+      "score": {
+        "score": 100,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/src/index.ts",
+      "complexity": {
+        "cyclomatic": 0,
+        "cognitive": 0,
+        "functions": []
+      },
+      "issues": [],
+      "score": {
+        "score": 100,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/src/memory.ts",
+      "complexity": {
+        "cyclomatic": 5,
+        "cognitive": 6,
+        "functions": [
+          {
+            "name": "truncateMessages",
+            "line": 37,
+            "complexity": 5,
+            "cognitiveComplexity": 5
+          },
+          {
+            "name": "(anonymous)",
+            "line": 45,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 53,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "compressMessage",
+            "line": 81,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "constructor",
+            "line": 103,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "append",
+            "line": 108,
+            "complexity": 2,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "flush",
+            "line": 116,
+            "complexity": 2,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "getContent",
+            "line": 127,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "getTotalLength",
+            "line": 131,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 132,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "clear",
+            "line": 135,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "constructor",
+            "line": 153,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "get",
+            "line": 158,
+            "complexity": 3,
+            "cognitiveComplexity": 2
+          },
+          {
+            "name": "set",
+            "line": 178,
+            "complexity": 4,
+            "cognitiveComplexity": 4
+          },
+          {
+            "name": "has",
+            "line": 193,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "delete",
+            "line": 197,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "clear",
+            "line": 201,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "size",
+            "line": 205,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "cleanup",
+            "line": 209,
+            "complexity": 3,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "getMemoryEstimate",
+            "line": 232,
+            "complexity": 5,
+            "cognitiveComplexity": 6
+          },
+          {
+            "name": "createCredentialsCache",
+            "line": 263,
+            "complexity": 2,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "(anonymous)",
+            "line": 268,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          }
+        ]
+      },
+      "issues": [],
+      "score": {
+        "score": 100,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/src/models-cloudflare.ts",
+      "complexity": {
+        "cyclomatic": 0,
+        "cognitive": 0,
+        "functions": []
+      },
+      "issues": [],
+      "score": {
+        "score": 100,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/src/models-data.ts",
+      "complexity": {
+        "cyclomatic": 0,
+        "cognitive": 0,
+        "functions": []
+      },
+      "issues": [],
+      "score": {
+        "score": 100,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/src/models-gemini.ts",
+      "complexity": {
+        "cyclomatic": 0,
+        "cognitive": 0,
+        "functions": []
+      },
+      "issues": [],
+      "score": {
+        "score": 100,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/src/models.ts",
+      "complexity": {
+        "cyclomatic": 6,
+        "cognitive": 5,
+        "functions": [
+          {
+            "name": "(anonymous)",
+            "line": 34,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "getModelInfo",
+            "line": 40,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "getModelsByProvider",
+            "line": 47,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 48,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "getAllSpecs",
+            "line": 54,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 55,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "getRecommendedModels",
+            "line": 61,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 63,
+            "complexity": 3,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "isValidSpec",
+            "line": 81,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "getAvailableProviders",
+            "line": 88,
+            "complexity": 6,
+            "cognitiveComplexity": 5
+          },
+          {
+            "name": "getAvailableModels",
+            "line": 101,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 103,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          }
+        ]
+      },
+      "issues": [],
+      "score": {
+        "score": 100,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/src/retry.ts",
+      "complexity": {
+        "cyclomatic": 9,
+        "cognitive": 15,
+        "functions": [
+          {
+            "name": "calculateDelay",
+            "line": 58,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "sleep",
+            "line": 77,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 78,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "withRetry",
+            "line": 97,
+            "complexity": 9,
+            "cognitiveComplexity": 15
+          },
+          {
+            "name": "withRetryResult",
+            "line": 177,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 184,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "createRetryWrapper",
+            "line": 212,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 213,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          }
+        ]
+      },
+      "issues": [],
+      "score": {
+        "score": 100,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/src/streaming-handlers-gemini.ts",
+      "complexity": {
+        "cyclomatic": 7,
+        "cognitive": 7,
+        "functions": [
+          {
+            "name": "extractGeminiText",
+            "line": 13,
+            "complexity": 3,
+            "cognitiveComplexity": 7
+          },
+          {
+            "name": "processSSELine",
+            "line": 22,
+            "complexity": 5,
+            "cognitiveComplexity": 4
+          },
+          {
+            "name": "createGeminiSSETransform",
+            "line": 31,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "transform",
+            "line": 34,
+            "complexity": 3,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "buildGeminiContents",
+            "line": 49,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 51,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 52,
+            "complexity": 2,
+            "cognitiveComplexity": 2
+          },
+          {
+            "name": "findSystemInstruction",
+            "line": 58,
+            "complexity": 1,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "(anonymous)",
+            "line": 59,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "fetchGeminiStream",
+            "line": 62,
+            "complexity": 7,
+            "cognitiveComplexity": 6
+          },
+          {
+            "name": "createStream",
+            "line": 110,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "createStream",
+            "line": 120,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          }
+        ]
+      },
+      "issues": [],
+      "score": {
+        "score": 100,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/src/streaming-handlers-groq.ts",
+      "complexity": {
+        "cyclomatic": 5,
+        "cognitive": 6,
+        "functions": [
+          {
+            "name": "extractDeltaContent",
+            "line": 13,
+            "complexity": 4,
+            "cognitiveComplexity": 6
+          },
+          {
+            "name": "processSSELine",
+            "line": 22,
+            "complexity": 5,
+            "cognitiveComplexity": 4
+          },
+          {
+            "name": "createGroqSSETransform",
+            "line": 31,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "transform",
+            "line": 34,
+            "complexity": 3,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "flush",
+            "line": 42,
+            "complexity": 2,
+            "cognitiveComplexity": 2
+          },
+          {
+            "name": "fetchGroqStream",
+            "line": 54,
+            "complexity": 3,
+            "cognitiveComplexity": 2
+          },
+          {
+            "name": "createStream",
+            "line": 91,
+            "complexity": 5,
+            "cognitiveComplexity": 4
+          },
+          {
+            "name": "createStream",
+            "line": 112,
+            "complexity": 5,
+            "cognitiveComplexity": 4
+          },
+          {
+            "name": "createStream",
+            "line": 135,
+            "complexity": 3,
+            "cognitiveComplexity": 2
+          },
+          {
+            "name": "createStream",
+            "line": 152,
+            "complexity": 3,
+            "cognitiveComplexity": 2
+          }
+        ]
+      },
+      "issues": [],
+      "score": {
+        "score": 100,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/src/streaming-handlers.ts",
+      "complexity": {
+        "cyclomatic": 1,
+        "cognitive": 0,
+        "functions": [
+          {
+            "name": "getStreamHandler",
+            "line": 61,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "hasStreamHandler",
+            "line": 68,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          }
+        ]
+      },
+      "issues": [],
+      "score": {
+        "score": 100,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/src/streams.ts",
+      "complexity": {
+        "cyclomatic": 7,
+        "cognitive": 14,
+        "functions": [
+          {
+            "name": "processSSELines",
+            "line": 39,
+            "complexity": 7,
+            "cognitiveComplexity": 10
+          },
+          {
+            "name": "readSSEStream",
+            "line": 60,
+            "complexity": 5,
+            "cognitiveComplexity": 6
+          },
+          {
+            "name": "createCloudflareStream",
+            "line": 81,
+            "complexity": 4,
+            "cognitiveComplexity": 2
+          },
+          {
+            "name": "start",
+            "line": 93,
+            "complexity": 4,
+            "cognitiveComplexity": 6
+          },
+          {
+            "name": "isStreamEnd",
+            "line": 132,
+            "complexity": 2,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "cloudflareStreamToText",
+            "line": 136,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "start",
+            "line": 140,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "pump",
+            "line": 143,
+            "complexity": 5,
+            "cognitiveComplexity": 14
+          },
+          {
+            "name": "streamToResponse",
+            "line": 185,
+            "complexity": 1,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "start",
+            "line": 192,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "pump",
+            "line": 195,
+            "complexity": 4,
+            "cognitiveComplexity": 10
+          },
+          {
+            "name": "streamToAsyncIterator",
+            "line": 236,
+            "complexity": 3,
+            "cognitiveComplexity": 3
+          }
+        ]
+      },
+      "issues": [
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/src/streams.ts",
+          "line": 160,
+          "column": 7,
+          "severity": "info",
+          "rule": "no-floating-promises",
+          "message": "Promise returned by this call must be handled (await, .then/.catch, void, or assignment)"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/src/streams.ts",
+          "line": 210,
+          "column": 7,
+          "severity": "info",
+          "rule": "no-floating-promises",
+          "message": "Promise returned by this call must be handled (await, .then/.catch, void, or assignment)"
+        }
+      ],
+      "score": {
+        "score": 99,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/src/structured.ts",
+      "complexity": {
+        "cyclomatic": 8,
+        "cognitive": 11,
+        "functions": [
+          {
+            "name": "generateObject",
+            "line": 63,
+            "complexity": 2,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "extractJSON",
+            "line": 110,
+            "complexity": 8,
+            "cognitiveComplexity": 11
+          }
+        ]
+      },
+      "issues": [],
+      "score": {
+        "score": 100,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/src/types.ts",
+      "complexity": {
+        "cyclomatic": 0,
+        "cognitive": 0,
+        "functions": []
+      },
+      "issues": [],
+      "score": {
+        "score": 100,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/test/errors.test.ts",
+      "complexity": {
+        "cyclomatic": 1,
+        "cognitive": 0,
+        "functions": [
+          {
+            "name": "(anonymous)",
+            "line": 11,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 12,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 29,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 43,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 57,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 68,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 69,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 78,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 85,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 91,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 97,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 103,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 110,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 117,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 118,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 126,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 131,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 141,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 142,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 150,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 158,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 164,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 165,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 172,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 180,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 181,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          }
+        ]
+      },
+      "issues": [],
+      "score": {
+        "score": 100,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/test/factory.test.ts",
+      "complexity": {
+        "cyclomatic": 1,
+        "cognitive": 0,
+        "functions": [
+          {
+            "name": "(anonymous)",
+            "line": 10,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 11,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 20,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 21,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 26,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 27,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 32,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 33,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 39,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 40,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 46,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 51,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 55,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 61,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 67,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 74,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 75,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 79,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 83,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 87,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 91,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 101,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 106,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 109,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 113,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 133,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          }
+        ]
+      },
+      "issues": [],
+      "score": {
+        "score": 100,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/test/fluent.test.ts",
+      "complexity": {
+        "cyclomatic": 2,
+        "cognitive": 4,
+        "functions": [
+          {
+            "name": "(anonymous)",
+            "line": 6,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 12,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 24,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 25,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 29,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 30,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 52,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 70,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 95,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 103,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 112,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 113,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 141,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 154,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 155,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 171,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 172,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 186,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 200,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 220,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 221,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 224,
+            "complexity": 2,
+            "cognitiveComplexity": 4
+          },
+          {
+            "name": "(anonymous)",
+            "line": 241,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 256,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 257,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          }
+        ]
+      },
+      "issues": [],
+      "score": {
+        "score": 100,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/test/memory.test.ts",
+      "complexity": {
+        "cyclomatic": 2,
+        "cognitive": 3,
+        "functions": [
+          {
+            "name": "(anonymous)",
+            "line": 11,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 12,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 13,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 28,
+            "complexity": 2,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "(anonymous)",
+            "line": 32,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 41,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 45,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 56,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 60,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 61,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 68,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 75,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 81,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 85,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 90,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 99,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 108,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 117,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 126,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 129,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 133,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 138,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 142,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 147,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 151,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 163,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 179,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 184,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 191,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 197,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 204,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 212,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 213,
+            "complexity": 2,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "(anonymous)",
+            "line": 225,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 226,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          }
+        ]
+      },
+      "issues": [],
+      "score": {
+        "score": 100,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/test/models.test.ts",
+      "complexity": {
+        "cyclomatic": 2,
+        "cognitive": 3,
+        "functions": [
+          {
+            "name": "(anonymous)",
+            "line": 13,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 14,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 15,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 16,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 17,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 24,
+            "complexity": 2,
+            "cognitiveComplexity": 2
+          },
+          {
+            "name": "(anonymous)",
+            "line": 36,
+            "complexity": 2,
+            "cognitiveComplexity": 2
+          },
+          {
+            "name": "(anonymous)",
+            "line": 43,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 44,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 48,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 55,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 56,
+            "complexity": 1,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "(anonymous)",
+            "line": 64,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 70,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 71,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 74,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 77,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 80,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 83,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 86,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 90,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 91,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 99,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 100,
+            "complexity": 2,
+            "cognitiveComplexity": 2
+          },
+          {
+            "name": "(anonymous)",
+            "line": 111,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 112,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 118,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 125,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 126,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 132,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          }
+        ]
+      },
+      "issues": [],
+      "score": {
+        "score": 100,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/test/retry.test.ts",
+      "complexity": {
+        "cyclomatic": 1,
+        "cognitive": 0,
+        "functions": [
+          {
+            "name": "(anonymous)",
+            "line": 11,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 12,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 24,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 31,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 41,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 46,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 47,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 51,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 55,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 66,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 79,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 81,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 90,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 92,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 101,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 115,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 117,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 131,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 145,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 147,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 158,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 159,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 163,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 167,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 179,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 196,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 197,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 201,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 205,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 219,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 222,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          }
+        ]
+      },
+      "issues": [],
+      "score": {
+        "score": 100,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/test/setup.ts",
+      "complexity": {
+        "cyclomatic": 5,
+        "cognitive": 2,
+        "functions": [
+          {
+            "name": "(anonymous)",
+            "line": 10,
+            "complexity": 5,
+            "cognitiveComplexity": 2
+          },
+          {
+            "name": "(anonymous)",
+            "line": 19,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          }
+        ]
+      },
+      "issues": [
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/test/setup.ts",
+          "line": 16,
+          "column": 3,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.error statement"
+        }
+      ],
+      "score": {
+        "score": 99,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/test/streaming-test.ts",
+      "complexity": {
+        "cyclomatic": 4,
+        "cognitive": 3,
+        "functions": [
+          {
+            "name": "testGroqStreaming",
+            "line": 7,
+            "complexity": 4,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "testGeminiStreaming",
+            "line": 42,
+            "complexity": 4,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "main",
+            "line": 77,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          }
+        ]
+      },
+      "issues": [
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/test/streaming-test.ts",
+          "line": 8,
+          "column": 3,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/test/streaming-test.ts",
+          "line": 12,
+          "column": 5,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.error statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/test/streaming-test.ts",
+          "line": 26,
+          "column": 5,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/test/streaming-test.ts",
+          "line": 33,
+          "column": 5,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/test/streaming-test.ts",
+          "line": 34,
+          "column": 5,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/test/streaming-test.ts",
+          "line": 35,
+          "column": 5,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/test/streaming-test.ts",
+          "line": 38,
+          "column": 5,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.error statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/test/streaming-test.ts",
+          "line": 43,
+          "column": 3,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/test/streaming-test.ts",
+          "line": 47,
+          "column": 5,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.error statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/test/streaming-test.ts",
+          "line": 61,
+          "column": 5,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/test/streaming-test.ts",
+          "line": 68,
+          "column": 5,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/test/streaming-test.ts",
+          "line": 69,
+          "column": 5,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/test/streaming-test.ts",
+          "line": 70,
+          "column": 5,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/test/streaming-test.ts",
+          "line": 73,
+          "column": 5,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.error statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/test/streaming-test.ts",
+          "line": 78,
+          "column": 3,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/test/streaming-test.ts",
+          "line": 79,
+          "column": 3,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/test/streaming-test.ts",
+          "line": 84,
+          "column": 3,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/test/streaming-test.ts",
+          "line": 85,
+          "column": 3,
+          "severity": "info",
+          "rule": "no-console",
+          "message": "Unexpected console.log statement"
+        }
+      ],
+      "score": {
+        "score": 96,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/test/streams.test.ts",
+      "complexity": {
+        "cyclomatic": 3,
+        "cognitive": 7,
+        "functions": [
+          {
+            "name": "(anonymous)",
+            "line": 14,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 15,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 25,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 26,
+            "complexity": 3,
+            "cognitiveComplexity": 7
+          },
+          {
+            "name": "start",
+            "line": 34,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 35,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 68,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 69,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 78,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "text",
+            "line": 82,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 97,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 98,
+            "complexity": 3,
+            "cognitiveComplexity": 7
+          },
+          {
+            "name": "start",
+            "line": 100,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 121,
+            "complexity": 3,
+            "cognitiveComplexity": 7
+          },
+          {
+            "name": "start",
+            "line": 123,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 144,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 145,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "start",
+            "line": 147,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 164,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "start",
+            "line": 166,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 184,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 185,
+            "complexity": 2,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "start",
+            "line": 187,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 203,
+            "complexity": 2,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "start",
+            "line": 205,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 218,
+            "complexity": 3,
+            "cognitiveComplexity": 6
+          },
+          {
+            "name": "start",
+            "line": 220,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 223,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          }
+        ]
+      },
+      "issues": [],
+      "score": {
+        "score": 100,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/test/structured.test.ts",
+      "complexity": {
+        "cyclomatic": 1,
+        "cognitive": 0,
+        "functions": [
+          {
+            "name": "(anonymous)",
+            "line": 6,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 13,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 14,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 49,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 75,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 99,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 116,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 134,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 135,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 143,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 149,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 151,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 154,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 156,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 159,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 163,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(anonymous)",
+            "line": 166,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          }
+        ]
+      },
+      "issues": [],
+      "score": {
+        "score": 100,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/tsup.config.ts",
+      "complexity": {
+        "cyclomatic": 0,
+        "cognitive": 0,
+        "functions": []
+      },
+      "issues": [],
+      "score": {
+        "score": 100,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/vitest.config.ts",
+      "complexity": {
+        "cyclomatic": 2,
+        "cognitive": 1,
+        "functions": [
+          {
+            "name": "onConsoleLog",
+            "line": 14,
+            "complexity": 2,
+            "cognitiveComplexity": 1
+          }
+        ]
+      },
+      "issues": [],
+      "score": {
+        "score": 100,
+        "grade": "A"
+      }
+    }
+  ],
+  "summary": {
+    "totalFiles": 34,
+    "totalIssues": 61,
+    "issuesBySeverity": {
+      "error": 0,
+      "warning": 0,
+      "info": 61
+    },
+    "averageComplexity": 1.780590717299578,
+    "maxComplexity": {
+      "file": "/Users/o6lvl4/workspace/github.com/Aid-On/aid-on-platform/packages/unillm/scripts/check.ts",
+      "function": "main",
+      "complexity": 10
+    }
+  },
+  "score": {
+    "overall": 94,
+    "grade": "A",
+    "distribution": {
+      "A": 34,
+      "B": 0,
+      "C": 0,
+      "D": 0,
+      "F": 0
+    }
+  }
+}
