@@ -108,7 +108,7 @@ async function fetchGeminiStream(
 export const gemini20FlashHandler: StreamHandler = {
   model: 'gemini-2.0-flash',
   async createStream(messages, apiKey, options = {}) {
-    return fetchGeminiStream('gemini-2.0-flash', messages, apiKey, options);
+    return fetchGeminiStream('gemini-2.0-flash', messages, apiKey, { ...options, stopSequences: options.stopSequences ?? undefined });
   }
 };
 
@@ -118,6 +118,6 @@ export const gemini20FlashHandler: StreamHandler = {
 export const gemini15FlashHandler: StreamHandler = {
   model: 'gemini-1.5-flash',
   async createStream(messages, apiKey, options = {}) {
-    return fetchGeminiStream('gemini-1.5-flash', messages, apiKey, options);
+    return fetchGeminiStream('gemini-1.5-flash', messages, apiKey, { ...options, stopSequences: options.stopSequences ?? undefined });
   }
 };

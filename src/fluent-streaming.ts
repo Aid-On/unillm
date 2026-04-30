@@ -5,7 +5,7 @@
  * Creates ReadableStream<string> for each provider's streaming API.
  */
 
-import type { Credentials } from "./types.js";
+import type { Credentials, ToolDefinition, StreamEvent, ContentBlock } from "./types.js";
 import { callCloudflareRestStream } from "./factory.js";
 import { getStreamHandler } from "./streaming-handlers.js";
 
@@ -31,6 +31,8 @@ function getApiKeyOrThrow(credentials: Credentials, provider: string): string {
     openai: credentials.openaiApiKey,
     groq: credentials.groqApiKey,
     gemini: credentials.geminiApiKey,
+    deepseek: credentials.deepseekApiKey,
+    kimi: credentials.kimiApiKey,
   };
   const key = keyMap[provider];
   if (!key) throw new Error(`${provider}ApiKey is required for ${provider} streaming`);
@@ -196,4 +198,176 @@ export async function createGeminiStream(model: string, messages: Array<{ role: 
   const contents = messages.filter(m => m.role !== "system").map(m => ({ role: m.role === "assistant" ? "model" : "user", parts: [{ text: m.content }] }));
   const systemInstruction = messages.find(m => m.role === "system")?.content;
   return fetchAndPipeSSE(`https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent?alt=sse&key=${apiKey}`, {}, { contents, ...(systemInstruction && { systemInstruction: { parts: [{ text: systemInstruction }] } }), generationConfig: { temperature: options?.temperature ?? 0.7, maxOutputTokens: options?.maxTokens ?? 2048 } }, extractGemini);
+}
+
+// =============================================================================
+// Tool-Aware Streaming (OpenAI/Groq format)
+// =============================================================================
+
+interface ToolCallBuffer {
+  id: string;
+  name: string;
+  arguments: string;
+}
+
+interface ToolStreamConfig {
+  provider: "openai" | "groq" | "anthropic" | "deepseek" | "kimi";
+  model: string;
+  messages: Array<{ role: string; content: string | ContentBlock[] }>;
+  credentials: Credentials;
+  tools: ToolDefinition[];
+  options?: { temperature?: number; maxTokens?: number };
+}
+
+function isRichContent(content: unknown): content is ContentBlock[] {
+  return Array.isArray(content) && content.length > 0 && typeof content[0] === "object" && "type" in content[0];
+}
+
+function toOpenAIStreamMessages(messages: Array<{ role: string; content: string | ContentBlock[] }>): unknown[] {
+  const result: unknown[] = [];
+  for (const msg of messages) {
+    if (!isRichContent(msg.content)) {
+      result.push({ role: msg.role, content: msg.content });
+      continue;
+    }
+    const textParts = msg.content.filter(b => b.type === "text");
+    const toolUseParts = msg.content.filter(b => b.type === "tool_use");
+    const toolResultParts = msg.content.filter(b => b.type === "tool_result");
+
+    if (toolUseParts.length > 0) {
+      const text = textParts.map(b => b.type === "text" ? b.text : "").join("");
+      result.push({
+        role: "assistant",
+        content: text || null,
+        tool_calls: toolUseParts.map(b => {
+          if (b.type !== "tool_use") return null;
+          return { id: b.id, type: "function", function: { name: b.name, arguments: JSON.stringify(b.input) } };
+        }).filter(Boolean),
+      });
+    } else if (toolResultParts.length > 0) {
+      for (const b of toolResultParts) {
+        if (b.type !== "tool_result") continue;
+        result.push({ role: "tool", tool_call_id: b.tool_use_id, content: b.content });
+      }
+    } else {
+      const text = textParts.map(b => b.type === "text" ? b.text : "").join("");
+      result.push({ role: msg.role, content: text });
+    }
+  }
+  return result;
+}
+
+export async function createToolStream(config: ToolStreamConfig): Promise<ReadableStream<StreamEvent>> {
+  const { provider, model, messages, credentials, tools, options } = config;
+
+  const apiKey = getApiKeyOrThrow(credentials, provider);
+  const apiMessages = toOpenAIStreamMessages(messages);
+  const apiTools = tools.map(t => ({
+    type: "function",
+    function: { name: t.name, description: t.description, parameters: t.inputSchema },
+  }));
+
+  const urls: Record<string, string> = {
+    openai: "https://api.openai.com/v1/chat/completions",
+    groq: "https://api.groq.com/openai/v1/chat/completions",
+    deepseek: "https://api.deepseek.com/v1/chat/completions",
+    kimi: "https://api.moonshot.ai/v1/chat/completions",
+  };
+  const url = urls[provider] ?? urls.openai;
+
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      model,
+      messages: apiMessages,
+      tools: apiTools,
+      stream: true,
+      temperature: options?.temperature ?? 0.7,
+      max_tokens: options?.maxTokens,
+    }),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`${provider} streaming failed: ${response.status} - ${errorText}`);
+  }
+
+  if (!response.body) throw new Error("No response body");
+
+  const toolCallBuffers = new Map<number, ToolCallBuffer>();
+  let finishReason = "stop";
+  let sseBuffer = "";
+
+  return response.body
+    .pipeThrough(new TextDecoderStream())
+    .pipeThrough(new TransformStream<string, StreamEvent>({
+      transform(chunk, controller) {
+        sseBuffer += chunk;
+        const lines = sseBuffer.split("\n");
+        sseBuffer = lines.pop() || "";
+
+        for (const line of lines) {
+          const trimmed = line.trim();
+          if (!trimmed.startsWith("data: ")) continue;
+          const data = trimmed.slice(6);
+          if (data === "[DONE]") continue;
+
+          try {
+            const parsed = JSON.parse(data);
+            const choice = parsed.choices?.[0];
+            if (!choice) continue;
+
+            if (choice.finish_reason) {
+              finishReason = choice.finish_reason;
+            }
+
+            const delta = choice.delta;
+            if (!delta) continue;
+
+            // Text content
+            if (delta.content) {
+              controller.enqueue({ type: "text_delta", text: delta.content });
+            }
+
+            // Tool calls (incremental)
+            if (delta.tool_calls) {
+              for (const tc of delta.tool_calls) {
+                const idx = tc.index ?? 0;
+                if (tc.id) {
+                  // First chunk: initialize buffer
+                  toolCallBuffers.set(idx, {
+                    id: tc.id,
+                    name: tc.function?.name ?? "",
+                    arguments: tc.function?.arguments ?? "",
+                  });
+                } else {
+                  // Subsequent chunks: append arguments
+                  const buf = toolCallBuffers.get(idx);
+                  if (buf && tc.function?.arguments) {
+                    buf.arguments += tc.function.arguments;
+                  }
+                }
+              }
+            }
+          } catch { /* skip parse errors */ }
+        }
+      },
+      flush(controller) {
+        // Emit completed tool_use blocks
+        for (const [, buf] of toolCallBuffers) {
+          let input: Record<string, unknown> = {};
+          try { input = JSON.parse(buf.arguments || "{}"); } catch { /* ignore */ }
+          controller.enqueue({ type: "tool_use", id: buf.id, name: buf.name, input });
+        }
+
+        const stopReason = finishReason === "tool_calls" ? "tool_use" as const
+          : finishReason === "length" ? "max_tokens" as const
+          : "end_turn" as const;
+        controller.enqueue({ type: "done", stopReason });
+      },
+    }));
 }

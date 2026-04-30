@@ -10,7 +10,7 @@
 // Provider Types
 // =============================================================================
 
-export type ProviderType = "groq" | "gemini" | "cloudflare" | "openai" | "anthropic";
+export type ProviderType = "groq" | "gemini" | "cloudflare" | "openai" | "anthropic" | "deepseek" | "kimi";
 
 // =============================================================================
 // Model Definitions
@@ -119,8 +119,21 @@ export type CloudflareModel =
   | "@cf/qwen/qwen2.5-coder-32b-instruct"
   | "@cf/qwen/qwen3-30b-a3b-fp8";
 
+/** DeepSeek supported models (verified 2026-04-30) */
+export type DeepSeekModel =
+  | "deepseek-v4-pro"
+  | "deepseek-v4-flash"
+  | "deepseek-v3.2"
+  | "deepseek-reasoner";
+
+/** Kimi (Moonshot) supported models (verified 2026-04-30) */
+export type KimiModel =
+  | "kimi-k2.6"
+  | "kimi-k2.5"
+  | "moonshot-v1-auto";
+
 /** All model types */
-export type AnyModel = AnthropicModel | OpenAIModel | GroqModel | GeminiModel | CloudflareModel;
+export type AnyModel = AnthropicModel | OpenAIModel | GroqModel | GeminiModel | CloudflareModel | DeepSeekModel | KimiModel;
 
 // =============================================================================
 // ModelSpec - The Core Concept
@@ -141,7 +154,9 @@ export type ModelSpec =
   | `openai:${OpenAIModel}`
   | `groq:${GroqModel}`
   | `gemini:${GeminiModel}`
-  | `cloudflare:${CloudflareModel}`;
+  | `cloudflare:${CloudflareModel}`
+  | `deepseek:${DeepSeekModel}`
+  | `kimi:${KimiModel}`;
 
 /**
  * Parsed ModelSpec
@@ -161,6 +176,8 @@ export interface Credentials {
   openaiApiKey?: string;
   groqApiKey?: string;
   geminiApiKey?: string;
+  deepseekApiKey?: string;
+  kimiApiKey?: string;
   /** Cloudflare API credentials (for REST API) */
   cloudflareApiKey?: string;
   cloudflareEmail?: string;
@@ -224,15 +241,70 @@ export interface GenerateOptions {
   temperature?: number;
   maxTokens?: number;
   stream?: boolean;
+  tools?: ToolDefinition[];
+  toolChoice?: "auto" | "required" | "none";
 }
 
 export interface GenerateResult {
   text: string;
+  toolCalls?: ToolUseBlock[];
+  stopReason?: "end_turn" | "tool_use" | "max_tokens" | "stop";
   usage?: {
     promptTokens: number;
     completionTokens: number;
   };
 }
+
+// =============================================================================
+// Tool Calling Types
+// =============================================================================
+
+export interface ToolDefinition {
+  name: string;
+  description: string;
+  inputSchema: {
+    type: "object";
+    properties: Record<string, unknown>;
+    required?: string[];
+  };
+}
+
+export interface ToolUseBlock {
+  id: string;
+  name: string;
+  input: Record<string, unknown>;
+}
+
+// =============================================================================
+// Rich Message Types (for multi-turn tool conversations)
+// =============================================================================
+
+export type ContentBlock =
+  | { type: "text"; text: string }
+  | { type: "tool_use"; id: string; name: string; input: Record<string, unknown> }
+  | { type: "tool_result"; tool_use_id: string; content: string; is_error?: boolean };
+
+export interface RichMessage {
+  role: "user" | "assistant" | "system";
+  content: string | ContentBlock[];
+}
+
+/** Simple text-only message (backward compatible) */
+export interface SimpleMessage {
+  role: string;
+  content: string;
+}
+
+export type AnyMessage = SimpleMessage | RichMessage;
+
+// =============================================================================
+// Streaming Event Types
+// =============================================================================
+
+export type StreamEvent =
+  | { type: "text_delta"; text: string }
+  | { type: "tool_use"; id: string; name: string; input: Record<string, unknown> }
+  | { type: "done"; stopReason: "end_turn" | "tool_use" | "max_tokens" | "stop" };
 
 // =============================================================================
 // Legacy Types (for backward compatibility)

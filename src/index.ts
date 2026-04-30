@@ -13,6 +13,8 @@ export type {
   GroqModel,
   GeminiModel,
   CloudflareModel,
+  DeepSeekModel,
+  KimiModel,
   AnyModel,
   ModelSpec,
   ParsedModelSpec,
@@ -22,6 +24,13 @@ export type {
   CheckOptions,
   GenerateOptions,
   GenerateResult,
+  ToolDefinition,
+  ToolUseBlock,
+  ContentBlock,
+  RichMessage,
+  SimpleMessage,
+  AnyMessage,
+  StreamEvent,
 } from "./types.js";
 
 // Core Edge-Native API

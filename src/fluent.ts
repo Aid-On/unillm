@@ -8,12 +8,12 @@
 import type { z } from "zod";
 import type { Stream } from "@aid-on/nagare";
 import { stream as nagareStream } from "@aid-on/nagare";
-import type { ModelSpec, Credentials, GenerateOptions, GenerateResult } from "./types.js";
+import type { ModelSpec, Credentials, GenerateOptions, GenerateResult, ToolDefinition, ContentBlock, StreamEvent } from "./types.js";
 import { generate, parseModelSpec } from "./factory.js";
 import { generateObject as baseGenerateObject, extractJSON } from "./structured.js";
 import { withRetry, type RetryConfig } from "./retry.js";
 import { truncateMessages, compressMessage } from "./memory.js";
-import { createProviderStream } from "./fluent-streaming.js";
+import { createProviderStream, createToolStream } from "./fluent-streaming.js";
 
 // =============================================================================
 // Core Builder Types
@@ -22,12 +22,14 @@ import { createProviderStream } from "./fluent-streaming.js";
 interface FluentState {
   model?: ModelSpec | string;
   credentials?: Credentials;
-  messages?: Array<{ role: string; content: string }>;
+  messages?: Array<{ role: string; content: string | ContentBlock[] }>;
   system?: string;
   temperature?: number;
   maxTokens?: number;
   retryConfig?: RetryConfig;
   schema?: z.ZodType;
+  tools?: ToolDefinition[];
+  toolChoice?: "auto" | "required" | "none";
 }
 
 // =============================================================================
@@ -70,7 +72,7 @@ export class UnillmBuilder {
     return new UnillmBuilder({ ...this.state, system: prompt });
   }
 
-  messages(msgs: Array<{ role: string; content: string }>): UnillmBuilder {
+  messages(msgs: Array<{ role: string; content: string | ContentBlock[] }>): UnillmBuilder {
     return new UnillmBuilder({ ...this.state, messages: msgs });
   }
 
@@ -88,6 +90,14 @@ export class UnillmBuilder {
     return new UnillmStructuredBuilder({ ...this.state, schema });
   }
 
+  tools(tools: ToolDefinition[]): UnillmBuilder {
+    return new UnillmBuilder({ ...this.state, tools });
+  }
+
+  toolChoice(choice: "auto" | "required" | "none"): UnillmBuilder {
+    return new UnillmBuilder({ ...this.state, toolChoice: choice });
+  }
+
   retry(config: RetryConfig): UnillmBuilder {
     return new UnillmBuilder({ ...this.state, retryConfig: config });
   }
@@ -99,14 +109,17 @@ export class UnillmBuilder {
   optimize(maxTokens = 4000): UnillmBuilder {
     const messages = this.state.messages;
     if (!messages) return this;
-    const optimized = truncateMessages(messages, maxTokens);
+    // Only optimize string-content messages
+    const stringMessages = messages.filter(m => typeof m.content === "string") as Array<{ role: string; content: string }>;
+    const optimized = truncateMessages(stringMessages, maxTokens);
     return new UnillmBuilder({ ...this.state, messages: optimized });
   }
 
   compress(): UnillmBuilder {
-    const messages = this.state.messages?.map(m => ({
-      ...m, content: compressMessage(m.content),
-    }));
+    const messages = this.state.messages?.map(m => {
+      if (typeof m.content !== "string") return m;
+      return { ...m, content: compressMessage(m.content) };
+    });
     return new UnillmBuilder({ ...this.state, messages });
   }
 
@@ -121,6 +134,8 @@ export class UnillmBuilder {
     const options: GenerateOptions = {
       temperature: this.state.temperature,
       maxTokens: this.state.maxTokens,
+      tools: this.state.tools,
+      toolChoice: this.state.toolChoice,
     };
     const generateFn = () => generate(model, messages, credentials, options);
     return this.state.retryConfig ? withRetry(generateFn, this.state.retryConfig) : generateFn();
@@ -131,8 +146,43 @@ export class UnillmBuilder {
     const { model: modelSpec, credentials } = this.getRequiredState();
     const messages = this.prepareMessages(prompt);
     const { provider, model } = parseModelSpec(modelSpec);
+    // Streaming only supports simple text messages
+    const simpleMessages = messages.map(m => ({
+      role: m.role,
+      content: typeof m.content === "string" ? m.content
+        : (m.content as Array<{ type: string; text?: string }>)
+            .filter(b => b.type === "text")
+            .map(b => b.text ?? "")
+            .join(""),
+    }));
     const readableStream = await createProviderStream({
-      provider, model, messages, credentials,
+      provider, model, messages: simpleMessages, credentials,
+      options: { temperature: this.state.temperature, maxTokens: this.state.maxTokens },
+    });
+    return nagareStream.from(readableStream);
+  }
+
+  async streamWithTools(prompt?: string): Promise<Stream<StreamEvent>> {
+    this.validateRequired(prompt);
+    const { model: modelSpec, credentials } = this.getRequiredState();
+    const messages = this.prepareMessages(prompt);
+    const { provider, model } = parseModelSpec(modelSpec);
+
+    if (!this.state.tools?.length) {
+      throw new Error("streamWithTools requires .tools() to be set");
+    }
+
+    const toolStreamProviders = ["openai", "groq", "deepseek", "kimi"];
+    if (!toolStreamProviders.includes(provider)) {
+      throw new Error(`streamWithTools currently supports ${toolStreamProviders.join(", ")} providers (got ${provider})`);
+    }
+
+    const readableStream = await createToolStream({
+      provider: provider as "openai" | "groq" | "deepseek" | "kimi",
+      model,
+      messages,
+      credentials,
+      tools: this.state.tools,
       options: { temperature: this.state.temperature, maxTokens: this.state.maxTokens },
     });
     return nagareStream.from(readableStream);
@@ -148,7 +198,7 @@ export class UnillmBuilder {
     return { model: this.state.model as string, credentials: this.state.credentials };
   }
 
-  private prepareMessages(prompt?: string): Array<{ role: string; content: string }> {
+  private prepareMessages(prompt?: string): Array<{ role: string; content: string | ContentBlock[] }> {
     let messages = this.state.messages || [];
     if (this.state.system) {
       messages = [{ role: "system", content: this.state.system }, ...messages];

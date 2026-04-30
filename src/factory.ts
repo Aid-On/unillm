@@ -10,11 +10,17 @@ import type {
   ParsedModelSpec,
   ProviderType,
   Credentials,
+  ToolDefinition,
+  ToolUseBlock,
+  GenerateResult,
+  ContentBlock,
 } from "./types.js";
 import {
   generateWithAnthropic,
   generateWithOpenAI,
   generateWithGroq,
+  generateWithDeepSeek,
+  generateWithKimi,
   generateWithGemini,
   callCloudflareRest,
   extractGptOssResponse,
@@ -48,8 +54,8 @@ export function parseModelSpec(spec: string): ParsedModelSpec {
   const provider = spec.slice(0, colonIndex) as ProviderType;
   const model = spec.slice(colonIndex + 1);
 
-  if (!["anthropic", "openai", "groq", "gemini", "cloudflare"].includes(provider)) {
-    throw new Error(`Unknown provider: "${provider}". Expected: anthropic, openai, groq, gemini, or cloudflare`);
+  if (!["anthropic", "openai", "groq", "gemini", "cloudflare", "deepseek", "kimi"].includes(provider)) {
+    throw new Error(`Unknown provider: "${provider}". Expected: anthropic, openai, groq, gemini, cloudflare, deepseek, or kimi`);
   }
 
   if (!model) {
@@ -74,13 +80,15 @@ export function createModelSpec(provider: ProviderType, model: string): ModelSpe
 // Edge-Native Generation
 // =============================================================================
 
-type GenerateFn = (model: string, messages: Array<{ role: string; content: string }>, apiKey: string, options: { temperature?: number; maxTokens?: number }) => Promise<{ text: string; usage?: { promptTokens: number; completionTokens: number } }>;
+type GenerateFn = (model: string, messages: Array<{ role: string; content: string | ContentBlock[] }>, apiKey: string, options: { temperature?: number; maxTokens?: number; tools?: ToolDefinition[]; toolChoice?: string }) => Promise<{ text: string; toolCalls?: ToolUseBlock[]; stopReason?: string; usage?: { promptTokens: number; completionTokens: number } }>;
 
 const PROVIDER_GENERATORS: Record<string, { keyField: keyof Credentials; fn: GenerateFn }> = {
   anthropic: { keyField: "anthropicApiKey", fn: generateWithAnthropic },
   openai: { keyField: "openaiApiKey", fn: generateWithOpenAI },
   groq: { keyField: "groqApiKey", fn: generateWithGroq },
-  gemini: { keyField: "geminiApiKey", fn: generateWithGemini },
+  deepseek: { keyField: "deepseekApiKey", fn: generateWithDeepSeek },
+  kimi: { keyField: "kimiApiKey", fn: generateWithKimi },
+  gemini: { keyField: "geminiApiKey", fn: generateWithGemini as GenerateFn },
 };
 
 async function generateWithCloudflare(
@@ -106,14 +114,19 @@ async function generateWithCloudflare(
  */
 export async function generate(
   spec: ModelSpec | string,
-  messages: Array<{ role: string; content: string }>,
+  messages: Array<{ role: string; content: string | ContentBlock[] }>,
   credentials: Credentials,
-  options: { temperature?: number; maxTokens?: number } = {}
-): Promise<{ text: string; usage?: { promptTokens: number; completionTokens: number } }> {
+  options: { temperature?: number; maxTokens?: number; tools?: ToolDefinition[]; toolChoice?: string } = {}
+): Promise<GenerateResult> {
   const { provider, model } = parseModelSpec(spec);
 
   if (provider === "cloudflare") {
-    return generateWithCloudflare(model, messages, credentials);
+    const simpleMessages = messages.map(m => ({
+      role: m.role,
+      content: typeof m.content === "string" ? m.content : JSON.stringify(m.content),
+    }));
+    const r = await generateWithCloudflare(model, simpleMessages, credentials);
+    return { text: r.text, usage: r.usage };
   }
 
   const config = PROVIDER_GENERATORS[provider];
@@ -122,7 +135,13 @@ export async function generate(
   const apiKey = credentials[config.keyField];
   if (!apiKey) throw new Error(`${config.keyField} is required for ${provider} models`);
 
-  return config.fn(model, messages, apiKey, options);
+  const result = await config.fn(model, messages, apiKey, options);
+  return {
+    text: result.text,
+    toolCalls: result.toolCalls,
+    stopReason: (result.stopReason as GenerateResult["stopReason"]) ?? "end_turn",
+    usage: result.usage,
+  };
 }
 
 // =============================================================================
@@ -134,16 +153,13 @@ export async function generate(
  */
 export function hasCredentials(provider: ProviderType, credentials: Credentials): boolean {
   switch (provider) {
-    case "anthropic":
-      return !!credentials.anthropicApiKey;
-    case "openai":
-      return !!credentials.openaiApiKey;
-    case "groq":
-      return !!credentials.groqApiKey;
-    case "gemini":
-      return !!credentials.geminiApiKey;
-    case "cloudflare":
-      return !!(credentials.cloudflareApiKey && credentials.cloudflareEmail && credentials.cloudflareAccountId);
+    case "anthropic": return !!credentials.anthropicApiKey;
+    case "openai": return !!credentials.openaiApiKey;
+    case "groq": return !!credentials.groqApiKey;
+    case "gemini": return !!credentials.geminiApiKey;
+    case "deepseek": return !!credentials.deepseekApiKey;
+    case "kimi": return !!credentials.kimiApiKey;
+    case "cloudflare": return !!(credentials.cloudflareApiKey && credentials.cloudflareEmail && credentials.cloudflareAccountId);
   }
 }
 
@@ -156,6 +172,8 @@ export function getCredentialsFromEnv(): Credentials {
     openaiApiKey: process.env.OPENAI_API_KEY,
     groqApiKey: process.env.GROQ_API_KEY,
     geminiApiKey: process.env.GEMINI_API_KEY,
+    deepseekApiKey: process.env.DEEPSEEK_API_KEY,
+    kimiApiKey: process.env.KIMI_API_KEY,
     cloudflareApiKey: process.env.CLOUDFLARE_API_KEY,
     cloudflareEmail: process.env.CLOUDFLARE_EMAIL,
     cloudflareAccountId: process.env.CLOUDFLARE_ACCOUNT_ID,

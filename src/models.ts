@@ -72,6 +72,8 @@ export const DEFAULT_SPECS: Record<ProviderType, ModelSpec> = {
   openai: "openai:gpt-4o-mini",
   groq: "groq:llama-3.1-8b-instant",
   gemini: "gemini:gemini-2.0-flash",
+  deepseek: "deepseek:deepseek-v4-flash",
+  kimi: "kimi:kimi-k2.6",
   cloudflare: "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast",
 };
 
