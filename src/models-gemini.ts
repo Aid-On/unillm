@@ -7,7 +7,10 @@
 import type { ModelInfo } from "./types.js";
 
 /**
- * Gemini models (verified 2025-01-15)
+ * Gemini models (verified 2026-06-10)
+ *
+ * 2.0 系・1.5 系は Google 側で廃止済み（404）のためカタログから削除。
+ * text-smash の 2026-06-02 インシデント（gemini-2.0-flash 廃止で OCR 全滅）の再発防止。
  */
 export const GEMINI_MODELS: ModelInfo[] = [
   // Gemini 3 Series (Latest)
@@ -50,41 +53,11 @@ export const GEMINI_MODELS: ModelInfo[] = [
     cost: "medium",
   },
 
-  // Gemini 2.0 Series
   {
-    spec: "gemini:gemini-2.0-flash",
+    spec: "gemini:gemini-2.5-flash-lite",
     provider: "gemini",
-    model: "gemini-2.0-flash",
-    name: "Gemini 2.0 Flash",
-    contextWindow: 1048576,
-    speed: "fast",
-    cost: "low",
-  },
-  {
-    spec: "gemini:gemini-2.0-flash-lite",
-    provider: "gemini",
-    model: "gemini-2.0-flash-lite",
-    name: "Gemini 2.0 Flash Lite",
-    contextWindow: 1048576,
-    speed: "fast",
-    cost: "low",
-  },
-
-  // Gemini 1.5 Series (Legacy but Active)
-  {
-    spec: "gemini:gemini-1.5-pro-002",
-    provider: "gemini",
-    model: "gemini-1.5-pro-002",
-    name: "Gemini 1.5 Pro",
-    contextWindow: 1048576,
-    speed: "medium",
-    cost: "medium",
-  },
-  {
-    spec: "gemini:gemini-1.5-flash-002",
-    provider: "gemini",
-    model: "gemini-1.5-flash-002",
-    name: "Gemini 1.5 Flash",
+    model: "gemini-2.5-flash-lite",
+    name: "Gemini 2.5 Flash Lite",
     contextWindow: 1048576,
     speed: "fast",
     cost: "low",

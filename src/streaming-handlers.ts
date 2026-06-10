@@ -12,8 +12,8 @@ import {
   llama33VersatileHandler,
 } from "./streaming-handlers-groq.js";
 import {
-  gemini20FlashHandler,
-  gemini15FlashHandler,
+  gemini25FlashHandler,
+  gemini25FlashLiteHandler,
 } from "./streaming-handlers-gemini.js";
 
 // =============================================================================
@@ -49,10 +49,9 @@ export const STREAM_HANDLERS: Map<string, StreamHandler> = new Map([
   ['llama-3.1-8b-instant', llama31InstantHandler],
   ['llama-3.3-70b-versatile', llama33VersatileHandler],
 
-  // Gemini models
-  ['gemini-2.0-flash', gemini20FlashHandler],
-  ['gemini-1.5-flash', gemini15FlashHandler],
-  ['gemini-1.5-flash-002', gemini15FlashHandler],
+  // Gemini models（2.0/1.5 系は廃止済みのため 2.5 系のみ）
+  ['gemini-2.5-flash', gemini25FlashHandler],
+  ['gemini-2.5-flash-lite', gemini25FlashLiteHandler],
 ]);
 
 /**
@@ -78,6 +77,6 @@ export {
 } from "./streaming-handlers-groq.js";
 
 export {
-  gemini20FlashHandler,
-  gemini15FlashHandler,
+  gemini25FlashHandler,
+  gemini25FlashLiteHandler,
 } from "./streaming-handlers-gemini.js";

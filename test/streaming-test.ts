@@ -50,7 +50,7 @@ async function testGeminiStreaming() {
 
   try {
     const stream = await unilmp()
-      .model("gemini:gemini-2.0-flash")
+      .model("gemini:gemini-2.5-flash")
       .credentials({ geminiApiKey: geminiKey })
       .system("You are a helpful assistant. Be concise.")
       .stream("Say 'Hello World' in Japanese");

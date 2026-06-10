@@ -123,13 +123,16 @@ export const gemini = {
   pro25: (apiKey: string) => quick("gemini:gemini-2.5-pro", { geminiApiKey: apiKey }),
   flash25: (apiKey: string) => quick("gemini:gemini-2.5-flash", { geminiApiKey: apiKey }),
 
-  /** Gemini 2.0 series (recommended) */
-  flash: (apiKey: string) => quick("gemini:gemini-2.0-flash", { geminiApiKey: apiKey }),
-  lite: (apiKey: string) => quick("gemini:gemini-2.0-flash-lite", { geminiApiKey: apiKey }),
-
-  /** Stable 1.5 series */
-  pro: (apiKey: string) => quick("gemini:gemini-1.5-pro-002", { geminiApiKey: apiKey }),
-  flash15: (apiKey: string) => quick("gemini:gemini-1.5-flash-002", { geminiApiKey: apiKey }),
+  /**
+   * 汎用ショートカット（2.5 系 / recommended）。
+   * 旧 2.0 系・1.5 系は Google 側で廃止（404）のため、既存キーは生きている
+   * 同格モデルへ再ポイントしている（flash15 は互換のためのエイリアス）。
+   */
+  flash: (apiKey: string) => quick("gemini:gemini-2.5-flash", { geminiApiKey: apiKey }),
+  lite: (apiKey: string) => quick("gemini:gemini-2.5-flash-lite", { geminiApiKey: apiKey }),
+  pro: (apiKey: string) => quick("gemini:gemini-2.5-pro", { geminiApiKey: apiKey }),
+  /** @deprecated 1.5 系は廃止。gemini.flash を使うこと */
+  flash15: (apiKey: string) => quick("gemini:gemini-2.5-flash", { geminiApiKey: apiKey }),
 };
 
 /**

@@ -39,7 +39,7 @@ describe("parseModelSpec", () => {
 describe("createModelSpec", () => {
   it("should create model spec string", () => {
     expect(createModelSpec("groq", "llama-3.1-8b-instant")).toBe("groq:llama-3.1-8b-instant");
-    expect(createModelSpec("gemini", "gemini-2.0-flash")).toBe("gemini:gemini-2.0-flash");
+    expect(createModelSpec("gemini", "gemini-2.5-flash")).toBe("gemini:gemini-2.5-flash");
   });
 });
 
@@ -60,7 +60,7 @@ describe("generate (edge-native)", () => {
 
   it("should throw for missing gemini credentials", async () => {
     await expect(
-      generate("gemini:gemini-2.0-flash", [], {})
+      generate("gemini:gemini-2.5-flash", [], {})
     ).rejects.toThrow("geminiApiKey is required");
   });
 

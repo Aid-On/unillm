@@ -70,7 +70,12 @@ export type GroqModel =
   | "groq/compound"
   | "groq/compound-mini";
 
-/** Gemini supported models (verified 2025-01-15) */
+/**
+ * Gemini supported models (verified 2026-06-10)
+ *
+ * 2.0 系・1.5 系・exp 系は Google 側で廃止済み（404）のため削除。
+ * text-smash の 2026-06-02 インシデント（gemini-2.0-flash 廃止で OCR 全滅）の再発防止。
+ */
 export type GeminiModel =
   // Gemini 3 Series (Latest)
   | "gemini-3-pro-preview"
@@ -80,21 +85,7 @@ export type GeminiModel =
   | "gemini-2.5-pro"
   | "gemini-2.5-flash"
   | "gemini-2.5-flash-lite"
-  | "gemini-2.5-flash-image"
-  // Gemini 2.0 Series
-  | "gemini-2.0-flash"
-  | "gemini-2.0-flash-lite"
-  | "gemini-2.0-flash-001"
-  | "gemini-2.0-pro-exp-02-05"
-  // Gemini 1.5 Series (Legacy but Active)
-  | "gemini-1.5-pro-002"
-  | "gemini-1.5-flash-002"
-  | "gemini-1.5-flash-8b-001"
-  | "gemini-1.5-pro-latest"
-  | "gemini-1.5-flash-latest"
-  // Experimental
-  | "gemini-exp-1121"
-  | "gemini-exp-1114";
+  | "gemini-2.5-flash-image";
 
 /** Cloudflare Workers AI supported models (verified 2025-01-15) */
 export type CloudflareModel =
@@ -146,7 +137,7 @@ export type AnyModel = AnthropicModel | OpenAIModel | GroqModel | GeminiModel | 
  * - "anthropic:claude-3-5-sonnet-latest"
  * - "openai:gpt-4o"
  * - "groq:llama-3.1-8b-instant"
- * - "gemini:gemini-2.0-flash"
+ * - "gemini:gemini-2.5-flash"
  * - "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast"
  */
 export type ModelSpec =

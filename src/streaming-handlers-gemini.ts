@@ -4,7 +4,7 @@
  * Dedicated handlers for Google Gemini models with SSE streaming support.
  */
 
-import type { StreamHandler } from "./streaming-handlers.js";
+import type { StreamHandler, StreamOptions } from "./streaming-handlers.js";
 
 // =============================================================================
 // Shared Gemini SSE Parsing
@@ -63,7 +63,7 @@ async function fetchGeminiStream(
   modelName: string,
   messages: Array<{ role: string; content: string }>,
   apiKey: string | undefined,
-  options: { temperature?: number; maxTokens?: number; topP?: number; stopSequences?: string[] }
+  options: StreamOptions
 ): Promise<ReadableStream<string>> {
   const contents = buildGeminiContents(messages);
   const systemInstruction = findSystemInstruction(messages);
@@ -80,7 +80,11 @@ async function fetchGeminiStream(
           temperature: options.temperature ?? 0.7,
           maxOutputTokens: options.maxTokens ?? 2048,
           topP: options.topP ?? 0.95,
-          stopSequences: options.stopSequences,
+          // null は JSON にそのまま載って 400 になり得るため undefined に正規化
+          stopSequences: options.stopSequences ?? undefined,
+          // 2.5 系の思考モードは maxOutputTokens を消費し品質劣化を招くため無効化
+          // （text-smash の llm-provider-gemini.ts と同じ判断）
+          thinkingConfig: { thinkingBudget: 0 },
         },
       }),
     }
@@ -103,21 +107,23 @@ async function fetchGeminiStream(
 // =============================================================================
 
 /**
- * Gemini 2.0 Flash handler
+ * Gemini 2.5 Flash handler
+ *
+ * 旧 2.0/1.5 系ハンドラは Google 側のモデル廃止（404）に伴い削除。
  */
-export const gemini20FlashHandler: StreamHandler = {
-  model: 'gemini-2.0-flash',
+export const gemini25FlashHandler: StreamHandler = {
+  model: 'gemini-2.5-flash',
   async createStream(messages, apiKey, options = {}) {
-    return fetchGeminiStream('gemini-2.0-flash', messages, apiKey, { ...options, stopSequences: options.stopSequences ?? undefined });
+    return fetchGeminiStream('gemini-2.5-flash', messages, apiKey, options);
   }
 };
 
 /**
- * Gemini 1.5 Flash handler
+ * Gemini 2.5 Flash Lite handler
  */
-export const gemini15FlashHandler: StreamHandler = {
-  model: 'gemini-1.5-flash',
+export const gemini25FlashLiteHandler: StreamHandler = {
+  model: 'gemini-2.5-flash-lite',
   async createStream(messages, apiKey, options = {}) {
-    return fetchGeminiStream('gemini-1.5-flash', messages, apiKey, { ...options, stopSequences: options.stopSequences ?? undefined });
+    return fetchGeminiStream('gemini-2.5-flash-lite', messages, apiKey, options);
   }
 };

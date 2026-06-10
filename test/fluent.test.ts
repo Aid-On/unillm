@@ -190,7 +190,7 @@ describe("Fluent Builder API", () => {
       
       expect(result.text).toBe("gemini response");
       expect(mockGenerate).toHaveBeenCalledWith(
-        "gemini:gemini-2.0-flash",
+        "gemini:gemini-2.5-flash",
         [{ role: "user", content: "Hello" }],
         { geminiApiKey: "test-key" },
         { temperature: undefined, maxTokens: undefined }

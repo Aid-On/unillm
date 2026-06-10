@@ -92,7 +92,7 @@ describe("getAllSpecs", () => {
     const specs = getAllSpecs();
     expect(specs.length).toBe(MODELS.length);
     expect(specs).toContain("groq:llama-3.1-8b-instant");
-    expect(specs).toContain("gemini:gemini-2.0-flash");
+    expect(specs).toContain("gemini:gemini-2.5-flash");
   });
 });
 
@@ -111,7 +111,7 @@ describe("getRecommendedModels", () => {
 describe("DEFAULT_SPECS", () => {
   it("should have defaults for all providers", () => {
     expect(DEFAULT_SPECS.groq).toBe("groq:llama-3.1-8b-instant");
-    expect(DEFAULT_SPECS.gemini).toBe("gemini:gemini-2.0-flash");
+    expect(DEFAULT_SPECS.gemini).toBe("gemini:gemini-2.5-flash");
     expect(DEFAULT_SPECS.cloudflare).toBe("cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast");
   });
 
@@ -125,7 +125,7 @@ describe("DEFAULT_SPECS", () => {
 describe("isValidSpec", () => {
   it("should return true for valid specs", () => {
     expect(isValidSpec("groq:llama-3.1-8b-instant")).toBe(true);
-    expect(isValidSpec("gemini:gemini-2.0-flash")).toBe(true);
+    expect(isValidSpec("gemini:gemini-2.5-flash")).toBe(true);
     expect(isValidSpec("cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast")).toBe(true);
   });
 
