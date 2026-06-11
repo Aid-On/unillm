@@ -9,7 +9,8 @@
 // Response Types
 // =============================================================================
 
-import type { ToolDefinition, ToolUseBlock, ContentBlock, AnyMessage } from "./types.js";
+import { errorFromResponse } from "./errors.js";
+import type { ToolDefinition, ToolUseBlock, ContentBlock, AnyMessage, ProviderType } from "./types.js";
 
 // =============================================================================
 // Message Conversion Helpers
@@ -167,7 +168,7 @@ export async function generateWithAnthropic(
 
   if (!response.ok) {
     const text = await response.text();
-    throw new Error(`Anthropic API error: ${response.status} ${text}`);
+    throw errorFromResponse(response, `Anthropic API error: ${response.status} ${text}`, "anthropic");
   }
 
   const result = await response.json() as AnthropicApiResponse;
@@ -231,7 +232,11 @@ async function generateWithOpenAICompat(
 
   if (!response.ok) {
     const text = await response.text();
-    throw new Error(`${providerName} API error: ${response.status} ${text}`);
+    throw errorFromResponse(
+      response,
+      `${providerName} API error: ${response.status} ${text}`,
+      providerName.toLowerCase() as ProviderType,
+    );
   }
 
   const result = await response.json() as OpenAIApiResponse;
@@ -306,7 +311,7 @@ export async function generateWithGemini(
 
   if (!response.ok) {
     const text = await response.text();
-    throw new Error(`Gemini API error: ${response.status} ${text}`);
+    throw errorFromResponse(response, `Gemini API error: ${response.status} ${text}`, "gemini");
   }
 
   const result = await response.json() as GeminiApiResponse;

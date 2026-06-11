@@ -129,10 +129,12 @@ export async function withRetry<T>(
         throw wrappedError;
       }
 
-      // Calculate delay
+      // Calculate delay — サーバーが Retry-After を指定していれば指数バックオフより優先
       const delay = delayFn
         ? delayFn(attempt, baseDelay)
-        : calculateDelay(attempt, baseDelay, maxDelay);
+        : wrappedError.retryAfterMs !== undefined
+          ? Math.min(wrappedError.retryAfterMs, maxDelay)
+          : calculateDelay(attempt, baseDelay, maxDelay);
 
       // Notify callback
       if (onRetry) {

@@ -228,3 +228,66 @@ describe("createRetryWrapper", () => {
     expect(fn).toHaveBeenCalledTimes(1);
   });
 });
+
+describe("Retry-After 尊重", () => {
+  it("parseRetryAfterMs: 秒数・HTTP-date・不正値", async () => {
+    const { parseRetryAfterMs } = await import("../src/errors.js");
+    expect(parseRetryAfterMs("2")).toBe(2000);
+    expect(parseRetryAfterMs("0")).toBe(0);
+    const future = new Date(Date.now() + 5000).toUTCString();
+    const ms = parseRetryAfterMs(future)!;
+    expect(ms).toBeGreaterThan(3000);
+    expect(ms).toBeLessThanOrEqual(5000);
+    expect(parseRetryAfterMs(null)).toBeUndefined();
+    expect(parseRetryAfterMs("not-a-date")).toBeUndefined();
+  });
+
+  it("errorFromResponse が retry-after を取り込み RATE_LIMIT に正規化する", async () => {
+    const { errorFromResponse } = await import("../src/errors.js");
+    const response = {
+      status: 429,
+      headers: { get: (n: string) => (n === "retry-after" ? "3" : null) },
+    };
+    const err = errorFromResponse(response, "Groq API error: 429", "groq");
+    expect(err.code).toBe("RATE_LIMIT");
+    expect(err.retryAfterMs).toBe(3000);
+    expect(err.statusCode).toBe(429);
+  });
+
+  it("withRetry はサーバー指定の待機時間を指数バックオフより優先する（maxDelay 上限つき）", async () => {
+    const { LLMProviderError } = await import("../src/errors.js");
+    const delays: number[] = [];
+    let calls = 0;
+    const result = await withRetry(
+      async () => {
+        calls++;
+        if (calls < 2) {
+          throw new LLMProviderError({
+            message: "rate limited",
+            code: "RATE_LIMIT",
+            retryAfterMs: 25,
+          });
+        }
+        return "ok";
+      },
+      { maxRetries: 2, baseDelay: 1000, maxDelay: 50, onRetry: (_a, _e, d) => delays.push(d) },
+    );
+    expect(result).toBe("ok");
+    expect(delays).toEqual([25]); // baseDelay=1000 由来のジッタ値ではなくサーバー指定値
+
+    // maxDelay でキャップされる
+    const delays2: number[] = [];
+    let calls2 = 0;
+    await withRetry(
+      async () => {
+        calls2++;
+        if (calls2 < 2) {
+          throw new LLMProviderError({ message: "x", code: "RATE_LIMIT", retryAfterMs: 9999 });
+        }
+        return "ok";
+      },
+      { maxRetries: 2, baseDelay: 1, maxDelay: 30, onRetry: (_a, _e, d) => delays2.push(d) },
+    );
+    expect(delays2).toEqual([30]);
+  });
+});

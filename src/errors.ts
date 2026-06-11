@@ -27,6 +27,8 @@ export class LLMProviderError extends Error {
   readonly provider: ProviderType | "unknown";
   readonly retryable: boolean;
   readonly statusCode?: number;
+  /** サーバー指定の再試行待機時間（Retry-After ヘッダ由来、ms）。withRetry が優先して使う */
+  readonly retryAfterMs?: number;
   readonly cause?: Error;
 
   constructor(options: {
@@ -35,6 +37,7 @@ export class LLMProviderError extends Error {
     provider?: ProviderType;
     statusCode?: number;
     retryable?: boolean;
+    retryAfterMs?: number;
     cause?: Error;
   }) {
     super(options.message);
@@ -43,6 +46,7 @@ export class LLMProviderError extends Error {
     this.provider = options.provider ?? "unknown";
     this.statusCode = options.statusCode;
     this.retryable = options.retryable ?? isRetryableCode(options.code);
+    this.retryAfterMs = options.retryAfterMs;
     this.cause = options.cause;
 
     // Maintains proper stack trace for where our error was thrown (only in V8)
@@ -103,6 +107,34 @@ export function statusToErrorCode(status: number): LLMErrorCode {
   if (status === 408) return "TIMEOUT";
   if (status >= 500) return "SERVER_ERROR";
   return "UNKNOWN";
+}
+
+/** Retry-After ヘッダ値（秒数 or HTTP-date）を ms に変換。不正値は undefined */
+export function parseRetryAfterMs(header: string | null): number | undefined {
+  if (!header) return undefined;
+  const seconds = Number(header);
+  if (Number.isFinite(seconds) && seconds >= 0) return Math.round(seconds * 1000);
+  const untilMs = Date.parse(header) - Date.now();
+  return Number.isFinite(untilMs) && untilMs > 0 ? untilMs : undefined;
+}
+
+/**
+ * fetch Response から LLMProviderError を構築する（プロバイダー実装用）。
+ * ステータスをエラーコードに正規化し、429/503 の Retry-After ヘッダを
+ * retryAfterMs として保持する（withRetry が指数バックオフより優先して使う）。
+ */
+export function errorFromResponse(
+  response: { status: number; headers: { get(name: string): string | null } },
+  message: string,
+  provider?: ProviderType,
+): LLMProviderError {
+  return new LLMProviderError({
+    message,
+    code: statusToErrorCode(response.status),
+    provider,
+    statusCode: response.status,
+    retryAfterMs: parseRetryAfterMs(response.headers.get("retry-after")),
+  });
 }
 
 /**
