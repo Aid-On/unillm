@@ -64,12 +64,14 @@ export interface GenerateObjectResult<T> {
  * スキーマの JSON 表現をスキーマオブジェクト単位でメモ化する。
  * スキーマはリクエスト間で不変なのに毎回 _def を深く stringify していた
  * （複雑なスキーマで数 KB × 呼び出し回数の無駄）。
+ * zod 4 の _def は内部表現なので、モデルには JSON Schema を見せる。
+ * JSON Schema にできない形（transform など）は any として出す。
  */
 const schemaJsonCache = new WeakMap<object, string>();
 function stringifySchemaCached(schema: z.ZodType): string {
   let cached = schemaJsonCache.get(schema);
   if (cached === undefined) {
-    cached = JSON.stringify(schema._def, null, 2);
+    cached = JSON.stringify(schema.toJSONSchema({ unrepresentable: "any" }), null, 2);
     schemaJsonCache.set(schema, cached);
   }
   return cached;
@@ -125,7 +127,7 @@ Example format: {"field1": "value1", "field2": 123}`;
 export function extractJSON<T extends z.ZodType>(
   text: string,
   schema?: T
-): T extends z.ZodType ? z.infer<T> : unknown {
+): z.infer<T> {
   // Try to find JSON in the text
   const jsonMatch = text.match(/\{[\s\S]*\}/);
   if (!jsonMatch) {

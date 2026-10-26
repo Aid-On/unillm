@@ -46,6 +46,30 @@ describe("generateObject (edge-native)", () => {
     );
   });
 
+  it("should show the schema to the model as JSON Schema", async () => {
+    mockGenerate.mockResolvedValue({ text: '{"name": "A", "age": 1}' });
+
+    const schema = z.object({
+      name: z.string().describe("full name"),
+      age: z.number().optional(),
+      slug: z.string().transform((s) => s.toLowerCase()).optional(),
+    });
+
+    await generateObject({
+      model: "groq:llama-3.1-8b-instant",
+      credentials: { groqApiKey: "test-key" },
+      schema,
+      prompt: "Generate a person",
+    });
+
+    const content = mockGenerate.mock.calls.at(-1)![1][0].content as string;
+    const json = JSON.parse(content.slice(content.indexOf("{"), content.lastIndexOf("}\n") + 1));
+    expect(json.type).toBe("object");
+    expect(json.properties.name).toEqual({ type: "string", description: "full name" });
+    expect(json.properties.age).toEqual({ type: "number" });
+    expect(json.required).toEqual(["name"]);
+  });
+
   it("should include system prompt when provided", async () => {
     mockGenerate.mockResolvedValue({
       text: '{"result": "success"}',
